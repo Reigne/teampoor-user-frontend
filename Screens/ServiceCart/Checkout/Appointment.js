@@ -89,9 +89,21 @@ const Appointment = (props) => {
       .then((res) => {
         setAddressList(res.data);
         // If there are addresses and no selected address ID is set, set the selected address ID to the ID of the first address
-        if (res.data.length > 0 && selectedAddressId === null) {
-          setSelectedAddressId(res.data[0]._id);
-        }
+        // if (res.data.length > 0 && selectedAddressId === null) {
+        //   setSelectedAddressId(res.data[0]._id);
+        // }
+
+        const defaultAddress = res.data.find(address => address.isDefault === true);
+
+        if (defaultAddress) {
+          setSelectedAddressId(defaultAddress._id);
+          setUsedAddress(defaultAddress);
+        } 
+
+        // else if (res.data.length > 0 && selectedAddressId === null) {
+        //   // If there is no default address but there are addresses, set selectedAddressId to the ID of the first address
+        //   setSelectedAddressId(res.data[0]._id);
+        // }
       })
       .catch((error) => console.log(error));
   };
