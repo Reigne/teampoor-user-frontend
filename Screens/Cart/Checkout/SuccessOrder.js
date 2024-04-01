@@ -3,6 +3,7 @@ import { TouchableOpacity, View, Text } from "react-native";
 import { Image } from "native-base";
 import { CheckCircleIcon } from "react-native-heroicons/solid";
 import { useNavigation } from "@react-navigation/native";
+import { CommonActions } from "@react-navigation/native";
 
 const SuccessOrder = (props) => {
   const navigation = useNavigation();
@@ -29,7 +30,23 @@ const SuccessOrder = (props) => {
           Check the status of your order on the Order tracking page
         </Text> */}
 
-      <TouchableOpacity onPress={() => navigation.navigate("Products")}>
+      <TouchableOpacity
+        onPress={() =>
+          navigation.dispatch(
+            CommonActions.reset({
+              index: 0,
+              routes: [
+                {
+                  name: "Cart",
+                  state: {
+                    routes: [{ name: "Carts" }],
+                  },
+                },
+              ],
+            })
+          )
+        }
+      >
         <View className="bg-red-500 rounded-full px-12 py-4 mt-10 ">
           <Text className="font-semibold text-white">Continute Shopping</Text>
         </View>

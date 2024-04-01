@@ -10,6 +10,7 @@ import * as actions from "../../../Redux/Actions/cartActions";
 import baseURL from "../../../assets/common/baseUrl";
 import axios from "axios";
 
+
 const Confirm = (props) => {
   const [token, setToken] = useState();
   const finalOrder = props.route.params;
@@ -62,18 +63,18 @@ const Confirm = (props) => {
             text2: "Thank you for choosing us. Your order is on its way!",
           });
 
-          console.log(res, "response");
+          if (finalOrder.payment.paymentMethod === "GCash") {
+            console.log(res, "response");
 
-          const { checkoutUrl } = res.data;
+            const { checkoutUrl } = res.data;
 
-          // Open the checkout URL in the user's default browser
-          Linking.openURL(checkoutUrl);
-
-          // Redirect user to payment page
-
+            Linking.openURL(checkoutUrl);
+          }
           setTimeout(() => {
             dispatch(actions.clearCart());
-            navigation.navigate("SuccessOrder");
+          
+
+            navigation.navigate("SuccessOrder"); // Navigate to SuccessOrder screen
           }, 500);
         }
       })
@@ -217,7 +218,7 @@ const Confirm = (props) => {
                 <Text>No order items found.</Text>
               )}
 
-              <View className="border-b border-zinc-200"/>
+              <View className="border-b border-zinc-200" />
 
               {finalOrder.order.order.orderItems ? (
                 <View className="flex flex-row justify-end space-x-1 items-center my-3">
