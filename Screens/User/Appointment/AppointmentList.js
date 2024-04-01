@@ -49,7 +49,7 @@ const AppointmentList = ({ item, cancelHandler }) => {
                         Cancel Appointment
                       </Text>
                       <Text className="text-zinc-600">
-                        Are you sure you want to
+                        Are you sure you want to cancel
                       </Text>
                       <Text className="text-zinc-600">the appointment?</Text>
                     </View>
