@@ -13,10 +13,15 @@ import AuthGlobal from "../../../Context/Store/AuthGlobal";
 import axios from "axios";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { CalendarDaysIcon } from "react-native-heroicons/solid";
+import {
+  CalendarDaysIcon,
+  ExclamationCircleIcon,
+} from "react-native-heroicons/solid";
+import { Modal, Button } from "native-base";
 
 const AppointmentList = ({ item, cancelHandler }) => {
   const navigation = useNavigation();
+  const [showModal, setShowModal] = useState(false);
   const [status, setStatus] = useState(
     item.appointmentStatus && item.appointmentStatus.length > 0
       ? item.appointmentStatus[item.appointmentStatus.length - 1].status
@@ -30,6 +35,56 @@ const AppointmentList = ({ item, cancelHandler }) => {
       onPress={() => navigation.navigate("AppointmentDetails", item)}
     >
       <View className="flex flex-row justify-between items-center">
+        <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+          <Modal.Content maxWidth="500px">
+            <Modal.CloseButton />
+            <Modal.Body>
+              <View className="space-y-4">
+                <View className="flex-1">
+                  <View className="justify-center items-center flex-1 space-y-2">
+                    <ExclamationCircleIcon color="#ef4444" size={58} />
+
+                    <View className="justify-center items-center flex-1 ">
+                      <Text className="text-lg font-bold">
+                        Cancel Appointment
+                      </Text>
+                      <Text className="text-zinc-600">
+                        Are you sure you want to
+                      </Text>
+                      <Text className="text-zinc-600">the appointment?</Text>
+                    </View>
+
+                    <Text className="text-zinc-600 text-xs">
+                      This action cannot be undone.
+                    </Text>
+                  </View>
+                </View>
+                <View className="flex-1 flex-row">
+                  <View className="flex-1 flex-row justify-center items-center space-x-2">
+                    <TouchableOpacity
+                      className="bg-zinc-200 p-3 rounded grow items-center"
+                      onPress={() => {
+                        setShowModal(false);
+                      }}
+                    >
+                      <Text>No</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                      className="bg-red-500 p-3 rounded grow items-center"
+                      onPress={() => {
+                        [cancelHandler(item._id), setShowModal(false)];
+                      }}
+                    >
+                      <Text className="text-white">Yes</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+            </Modal.Body>
+          </Modal.Content>
+        </Modal>
+
         <Text className="font-bold">{item?.serviceType}</Text>
 
         <View
@@ -173,7 +228,10 @@ const AppointmentList = ({ item, cancelHandler }) => {
           <View className="flex flex-row justify-end">
             <TouchableOpacity
               className="border border-red-500 px-3 py-2 rounded-lg"
-              onPress={() => cancelHandler(item._id)}
+              onPress={() =>
+                // cancelHandler(item._id)
+                setShowModal(true)
+              }
             >
               <Text className="text-red-500 text-xs">Cancel Appointment</Text>
             </TouchableOpacity>
