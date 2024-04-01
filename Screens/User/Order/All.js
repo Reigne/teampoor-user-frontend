@@ -15,10 +15,13 @@ import axios from "axios";
 // import AuthGlobal from "../../Context/Store/AuthGlobal";
 // import { logoutUser } from "../../Context/Actions/Auth.actions";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { View, FlatList, Badge, Pressable } from "native-base";
+import { View, FlatList, Badge, Pressable, Modal } from "native-base";
 // import UserOrderList from "./UserOrderList";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-import { MagnifyingGlassIcon } from "react-native-heroicons/solid";
+import {
+  ExclamationCircleIcon,
+  MagnifyingGlassIcon,
+} from "react-native-heroicons/solid";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AuthGlobal from "../../../Context/Store/AuthGlobal";
 import baseURL from "../../../assets/common/baseUrl";
@@ -32,6 +35,8 @@ const All = (props) => {
   const [itemsToLoad, setItemsToLoad] = useState(5); // Number of items to initially load
   const [itemsPerPage, setItemsPerPage] = useState(5); // Number of items to load more
   const [loadingMore, setLoadingMore] = useState(false); // Flag to indicate loading more items
+  const [showModal, setShowModal] = useState(false);
+  const [itemID, setItemID] = useState("");
 
   const navigation = useNavigation();
 
@@ -121,6 +126,44 @@ const All = (props) => {
       });
     }
   };
+
+  const cancelOrder = (id) => {
+    try {
+      console.log(itemID, "id status");
+      axios
+        .put(
+          `${baseURL}orders/${id}`,
+          { status: "CANCELLED" },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        )
+        .then((res) => {
+          fetchOrders();
+
+          Toast.show({
+            topOffset: 60,
+            type: "success",
+            text1: "Order has been cancelled",
+            text2: `#${id} Order has been cancelled`,
+          });
+        });
+    } catch (error) {
+      console.error(error);
+      // Handle errors, show an error toast, etc.
+      Toast.show({
+        topOffset: 60,
+        type: "error",
+        text1: "Something went wrong",
+        text2: "Please try again",
+      });
+    }
+  };
+
+  // const actionModal = (id) => {
+  //   setItemID(id);
+  //   showModal(true);
+  // };
 
   const renderOrders = ({ item }) => {
     // console.log(item);
@@ -227,26 +270,28 @@ const All = (props) => {
                   <View className="flex justify-center items-center">
                     <Image
                       source={
-                        item.orderItems[0].product.images[0]?.url
-                          ? { uri: item.orderItems[0].product.images[0]?.url }
+                        item.orderItems[0]?.product?.images[0]?.url
+                          ? { uri: item.orderItems[0]?.product?.images[0]?.url }
                           : require("../../../assets/images/teampoor-default.png")
                       }
                       style={{ width: 75, height: 75 }}
                       className="rounded "
                     />
 
-                    <Text className="mt-2">+{item.orderItems.length} more</Text>
+                    <Text className="mt-2">
+                      +{item.orderItems?.length} more
+                    </Text>
                   </View>
 
                   <View className="space-y-1">
                     <Text className="font-bold text-base">
-                      {item.orderItems[0].product?.name}
+                      {item.orderItems[0]?.product?.name}
                     </Text>
 
-                    <Text>Quantity: {item.orderItems[0].quantity}</Text>
+                    <Text>Quantity: {item.orderItems[0]?.quantity}</Text>
                     <Text>
                       {parseFloat(
-                        item.orderItems[0].product?.price
+                        item.orderItems[0]?.product?.price
                       ).toLocaleString("en-US", {
                         style: "currency",
                         currency: "PHP",
@@ -279,7 +324,7 @@ const All = (props) => {
                   {item.orderStatus?.[item.orderStatus?.length - 1]?.status ===
                     "Pending" && (
                     <TouchableOpacity
-                      onPress={() => updateStatus(item._id)}
+                      onPress={() => [setShowModal(true), setItemID(item._id)]}
                       className="border border-red-500 px-3 py-2 rounded-lg justify-center items-center"
                     >
                       <Text className="text-red-500">Cancel Order</Text>
@@ -289,7 +334,7 @@ const All = (props) => {
                   {item.orderStatus?.[item.orderStatus?.length - 1]?.status ===
                     "TOPAY" && (
                     <TouchableOpacity
-                      onPress={() => updateStatus(item._id)}
+                      onPress={() => [setShowModal(true), setItemID(item._id)]}
                       className="border border-red-500 px-3 py-2 rounded-lg justify-center items-center"
                     >
                       <Text className="text-red-500">Cancel Order</Text>
@@ -385,7 +430,9 @@ const All = (props) => {
               </View>
 
               <View className="flex justify-center items-center">
-                <Text className="text-xl font-bold text-red-500">NO ORDER FOUND</Text>
+                <Text className="text-xl font-bold text-red-500">
+                  NO ORDER FOUND
+                </Text>
                 <Text className="text-xs">
                   Looks like you haven't made your order yet.
                 </Text>
@@ -394,6 +441,60 @@ const All = (props) => {
           }
         />
       )}
+
+      {/* Modal */}
+      <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+        <Modal.Content maxWidth="500px">
+          <Modal.CloseButton />
+          <Modal.Body>
+            <View className="space-y-4">
+              <View className="flex-1">
+                <View className="justify-center items-center flex-1 space-y-2">
+                  {/* Your modal content goes here */}
+
+                  <ExclamationCircleIcon color="#ef4444" size={58} />
+
+                  <View>
+                    <Text className="text-xl font-bold">Cancel Order</Text>
+                  </View>
+
+                  <View className="flex-1 items-center">
+                    <Text>Are you sure you want to</Text>
+                    <Text>cancel the order?</Text>
+                  </View>
+
+                  <View className="flex-1 items-center">
+                    <Text className="text-xs">
+                      This action cannot be undone.
+                    </Text>
+                  </View>
+                </View>
+              </View>
+              <View className="flex-1 flex-row">
+                <View className="flex-1 flex-row justify-center items-center space-x-2">
+                  <TouchableOpacity
+                    className="bg-zinc-200 p-3 rounded grow items-center"
+                    onPress={() => {
+                      setShowModal(false);
+                    }}
+                  >
+                    <Text>No</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    className="bg-red-500 p-3 rounded grow items-center"
+                    onPress={() => {
+                      // Handle modal action
+                      [setShowModal(false), cancelOrder(itemID)];
+                    }}
+                  >
+                    <Text className="text-white">Yes</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </View>
+          </Modal.Body>
+        </Modal.Content>
+      </Modal>
     </View>
   );
 };

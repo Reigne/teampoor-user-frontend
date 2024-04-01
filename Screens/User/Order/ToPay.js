@@ -11,18 +11,21 @@ import {
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import { View, FlatList, Badge, Pressable } from "native-base";
+import { View, FlatList, Badge, Pressable, Modal } from "native-base";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AuthGlobal from "../../../Context/Store/AuthGlobal";
 import baseURL from "../../../assets/common/baseUrl";
 import Toast from "react-native-toast-message";
+import { ExclamationCircleIcon } from "react-native-heroicons/solid";
 
 const ToPay = (props) => {
   const context = useContext(AuthGlobal);
   const [allOrders, setAllOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [token, setToken] = useState();
+  const [showModal, setShowModal] = useState(false);
+  const [itemID, setItemID] = useState("");
 
   const navigation = useNavigation();
 
@@ -48,7 +51,6 @@ const ToPay = (props) => {
     axios
       .get(`${baseURL}orders/user/${userid}`, userid)
       .then((res) => {
-        // Filter orders with "Pending" and "TOSHIP" statuses
         const filteredOrders = res.data.filter(
           (order) =>
             order.orderStatus?.[order.orderStatus?.length - 1]?.status ===
@@ -60,21 +62,16 @@ const ToPay = (props) => {
       .catch((error) => console.log(error));
   };
 
-  // Function to format the date as "1/5/2024"
   const formatDate = (dateString) => {
     const options = { month: "numeric", day: "numeric", year: "numeric" };
     return new Date(dateString).toLocaleDateString("en-US", options);
   };
 
   const viewOrderDetail = (item) => {
-    // console.log(item);
-
     navigation.navigate("OrderDetails", { order: item });
   };
 
   const reviewOrder = (item) => {
-    // console.log(item);
-
     navigation.navigate("ReviewOrder", { order: item });
   };
 
@@ -101,6 +98,38 @@ const ToPay = (props) => {
         });
     } catch (error) {
       console.error(error);
+      Toast.show({
+        topOffset: 60,
+        type: "error",
+        text1: "Something went wrong",
+        text2: "Please try again",
+      });
+    }
+  };
+
+  const cancelOrder = (id) => {
+    try {
+      console.log(itemID, "id status");
+      axios
+        .put(
+          `${baseURL}orders/${id}`,
+          { status: "CANCELLED" },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        )
+        .then((res) => {
+          fetchOrders();
+
+          Toast.show({
+            topOffset: 60,
+            type: "success",
+            text1: "Order has been cancelled",
+            text2: `#${id} Order has been cancelled`,
+          });
+        });
+    } catch (error) {
+      console.error(error);
       // Handle errors, show an error toast, etc.
       Toast.show({
         topOffset: 60,
@@ -112,8 +141,6 @@ const ToPay = (props) => {
   };
 
   const renderOrders = ({ item }) => {
-    // console.log(item);
-
     return (
       <View className="px-3 py-1">
         <Pressable
@@ -258,7 +285,7 @@ const ToPay = (props) => {
                   {item.orderStatus?.[item.orderStatus?.length - 1]?.status ===
                     "TOPAY" && (
                     <TouchableOpacity
-                      onPress={() => updateStatus(item._id)}
+                      onPress={() => [setShowModal(true), setItemID(item._id)]}
                       className="border border-red-500 px-3 py-2 rounded-lg justify-center items-center"
                     >
                       <Text className="text-red-500">Cancel Order</Text>
@@ -321,7 +348,9 @@ const ToPay = (props) => {
               </View>
 
               <View className="flex justify-center items-center">
-                <Text className="text-xl font-bold text-red-500">NO ORDER FOUND</Text>
+                <Text className="text-xl font-bold text-red-500">
+                  NO ORDER FOUND
+                </Text>
                 <Text className="text-xs">
                   Looks like you haven't made your order yet.
                 </Text>
@@ -329,6 +358,59 @@ const ToPay = (props) => {
             </View>
           }
         />
+
+        <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+          <Modal.Content maxWidth="500px">
+            <Modal.CloseButton />
+            <Modal.Body>
+              <View className="space-y-4">
+                <View className="flex-1">
+                  <View className="justify-center items-center flex-1 space-y-2">
+                    {/* Your modal content goes here */}
+
+                    <ExclamationCircleIcon color="#ef4444" size={58} />
+
+                    <View>
+                      <Text className="text-xl font-bold">Cancel Order</Text>
+                    </View>
+
+                    <View className="flex-1 items-center">
+                      <Text>Are you sure you want to</Text>
+                      <Text>cancel the order?</Text>
+                    </View>
+
+                    <View className="flex-1 items-center">
+                      <Text className="text-xs">
+                        This action cannot be undone.
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+                <View className="flex-1 flex-row">
+                  <View className="flex-1 flex-row justify-center items-center space-x-2">
+                    <TouchableOpacity
+                      className="bg-zinc-200 p-3 rounded grow items-center"
+                      onPress={() => {
+                        setShowModal(false);
+                      }}
+                    >
+                      <Text>No</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      className="bg-red-500 p-3 rounded grow items-center"
+                      onPress={() => {
+                        // Handle modal action
+                        [setShowModal(false), cancelOrder(itemID)];
+                      }}
+                    >
+                      <Text className="text-white">Yes</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+            </Modal.Body>
+          </Modal.Content>
+        </Modal>
       </View>
     </View>
   );
