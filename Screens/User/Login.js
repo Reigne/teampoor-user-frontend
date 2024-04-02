@@ -94,7 +94,7 @@ const Login = (props) => {
             <SafeAreaView className="flex-row justify-center mb-5">
               <Image
                 source={require("../../assets/images/motorcycle2.png")}
-                style={{ width: 325, height: 235 }}
+                style={{ width: 300, height: 330 }}
                 resizeMode="contain"
               />
             </SafeAreaView>
@@ -147,10 +147,10 @@ const Login = (props) => {
                     <Text className="text-red-500">{errors.password}</Text>
                   )}
                 </View>
-
+{/* 
                 <TouchableOpacity className="flex items-end mb-5">
                   <Text className="text-gray-400">Forgot Password?</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <Text>{error ? <Error message={error} /> : null}</Text>
                 <TouchableOpacity
                   className="bg-red-500 py-4 rounded-2xl"
@@ -163,7 +163,7 @@ const Login = (props) => {
 
                 {/* "or" text */}
 
-                <View
+                {/* <View
                   style={{
                     flexDirection: "row",
                     justifyContent: "center",
@@ -188,9 +188,9 @@ const Login = (props) => {
                     className="bg-gray-200"
                     style={{ flex: 1, height: 1 }}
                   />
-                </View>
+                </View> */}
 
-                <TouchableOpacity className="bg-zinc-700 py-4 rounded-2xl items-center">
+                {/* <TouchableOpacity className="bg-zinc-700 py-4 rounded-2xl items-center">
                   <View style={{ flexDirection: "row", alignItems: "center" }}>
                     <View className="bg-white p-[2] rounded-full mr-2">
                       <Image
@@ -203,7 +203,7 @@ const Login = (props) => {
                       Sign in with Google
                     </Text>
                   </View>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
                 <View className="flex flex-row text-center justify-center mb-5">
                   <Text className="mt-2 text-gray-500">
