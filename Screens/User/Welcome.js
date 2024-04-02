@@ -17,9 +17,9 @@ const Welcome = (props) => {
             className="rounded-full"
           />
         </View>
-        <Text className="text-xl font-bold">Welcome to</Text>
-        <Text className="text-4xl font-extrabold">TEAMPOOR</Text>
-        <Text className="text-center text-sm mt-2 px-4">
+        <Text className="text-2xl font-extrabold">Welcome To</Text>
+        <Text className="text-5xl mt-1 font-extrabold text-red-500">TEAMPOOR</Text>
+        <Text className="text-center mt-2 px-4">
           Explore a world of high-performance motorcycles and top-notch gear.
           Your adventure begins here.
         </Text>
