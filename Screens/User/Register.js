@@ -14,9 +14,12 @@ import {
 } from "react-native-responsive-screen";
 import { Formik } from "formik";
 import * as Yup from "yup";
+import { Checkbox, Modal } from "native-base";
 
 const Register = (props) => {
   const navigation = useNavigation();
+  const [isCheck, setIsCheck] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const phoneRegExp = /^9\d{9}$/;
 
@@ -293,9 +296,31 @@ const Register = (props) => {
                   )}
 
                   <View className="mt-5">
+                    <View className="flex flex-row space-x-2 items-center">
+                      <Checkbox
+                        colorScheme="info"
+                        isChecked={isCheck}
+                        onPress={() => setIsCheck(!isCheck)}
+                      />
+
+                      <View className="flex flex-row space-x-1 items-center">
+                        <Text>By signup you agree to the</Text>
+                        <TouchableOpacity onPress={() => setShowModal(true)}>
+                          <Text className="text-blue-500">
+                            terms and conditions *
+                          </Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+
                     <TouchableOpacity
-                      className="bg-red-500 py-4 rounded-2xl mt-5"
+                      className={
+                        isCheck === true
+                          ? "bg-red-500 py-4 rounded-2xl mt-5"
+                          : "bg-zinc-500 py-4 rounded-2xl mt-5"
+                      }
                       onPress={() => handleSubmit()}
+                      disabled={isCheck === false}
                     >
                       <Text className="font-xl font-bold text-center text-white">
                         Sign Up
@@ -318,6 +343,77 @@ const Register = (props) => {
             </View>
           )}
         </Formik>
+
+        <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+          <Modal.Content maxWidth="500px">
+            <Modal.CloseButton />
+            <Modal.Body>
+              <View className="space-y-4">
+                <View className="flex-1">
+                  <View className="flex-1 space-y-2">
+                    {/* Your modal content goes here */}
+
+                    <View>
+                      <Text className="text-xl font-bold">
+                        Terms and Conditions
+                      </Text>
+                    </View>
+
+                    <View className="flex-1">
+                      <Text>
+                        When scheduling a service appointment through the [Your
+                        Motorcycle Shop] mobile application ("the App"), users
+                        agree to the following terms and conditions:
+                      </Text>
+                    </View>
+
+                    <View className="flex-1">
+                      <Text>1. Appointment Booking:</Text>
+                    </View>
+                    <View className="flex-1">
+                      <Text>
+                        By booking a service appointment through the App, users
+                        confirm their agreement to these terms and conditions.
+                        Users must provide accurate information regarding the
+                        type of service required and any specific requests or
+                        instructions.:
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+                <View className="flex-1 flex-row">
+                  <View className="flex-1 flex-row justify-center items-center space-x-2">
+                    <TouchableOpacity
+                      className="bg-green-500 p-2 rounded grow items-center"
+                      onPress={() => {
+                        [setShowModal(false), setIsCheck(true)];
+                      }}
+                    >
+                      <Text className="text-white">Accept</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      className="border border-zinc-500 p-2 rounded grow items-center"
+                      onPress={() => {
+                        [setShowModal(false), setIsCheck(true)];
+                      }}
+                    >
+                      <Text className="">Cancel</Text>
+                    </TouchableOpacity>
+                    {/* <TouchableOpacity
+                      className="bg-red-500 p-3 rounded grow items-center"
+                      onPress={() => {
+                        // Handle modal action
+                        [setShowModal(false), cancelOrder(itemID)];
+                      }}
+                    >
+                      <Text className="text-white">Yes</Text>
+                    </TouchableOpacity> */}
+                  </View>
+                </View>
+              </View>
+            </Modal.Body>
+          </Modal.Content>
+        </Modal>
       </SafeAreaView>
     </KeyboardAwareScrollView>
   );

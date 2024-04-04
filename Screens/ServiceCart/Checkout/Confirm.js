@@ -22,11 +22,15 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as actions from "../../../Redux/Actions/serviceCartActions";
 import Toast from "react-native-toast-message";
+import { Checkbox, Modal } from "native-base";
 
 const Confirm = (props) => {
   // console.log(props.route.params, "confirm props");
   const [token, setToken] = useState();
   const [serviceItem, setServiceItem] = useState([]);
+  const [isCheck, setIsCheck] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
   let navigation = useNavigation();
   const finalService = props.route.params;
 
@@ -160,7 +164,7 @@ const Confirm = (props) => {
             <Text className="text-zinc-500">Brand:</Text>
             <Text className="font-semibold">{finalService?.brand}</Text>
           </View>
-{/* 
+          {/* 
           <View className="flex flex-row justify-between">
             <Text className="text-zinc-500">Model:</Text>
             <Text className="font-semibold">{finalService?.model}</Text>
@@ -228,11 +232,31 @@ const Confirm = (props) => {
         </View>
       </View>
 
+      <View className="flex flex-row space-x-2 items-center">
+        <Checkbox
+          colorScheme="info"
+          isChecked={isCheck}
+          onPress={() => setIsCheck(!isCheck)}
+        />
+
+        <View className="flex-1 flex-wrap flex-row space-x-1 items-center">
+          <Text>By scheduling this appointment, you agree to the</Text>
+          <TouchableOpacity onPress={() => setShowModal(true)}>
+            <Text className="text-blue-500">terms and conditions *</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+
       <View className="">
         <View className="flex justify-center items-center my-2">
           <TouchableOpacity
-            className="bg-red-500 w-full py-3 rounded-xl items-center"
             onPress={() => submitHandler()}
+            className={
+              isCheck === true
+                ? "bg-red-500 w-full py-3 rounded-xl items-center"
+                : "bg-zinc-500 w-full py-3 rounded-xl items-center"
+            }
+            disabled={isCheck === false}
           >
             <Text className="font-bold text-base text-white">
               Place Appointment
@@ -240,6 +264,77 @@ const Confirm = (props) => {
           </TouchableOpacity>
         </View>
       </View>
+
+      <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+        <Modal.Content maxWidth="500px">
+          <Modal.CloseButton />
+          <Modal.Body>
+            <View className="space-y-4">
+              <View className="flex-1">
+                <View className="flex-1 space-y-2">
+                  {/* Your modal content goes here */}
+
+                  <View>
+                    <Text className="text-xl font-bold">
+                      Terms and Conditions
+                    </Text>
+                  </View>
+
+                  <View className="flex-1">
+                    <Text>
+                      When scheduling a service appointment through the [Your
+                      Motorcycle Shop] mobile application ("the App"), users
+                      agree to the following terms and conditions:
+                    </Text>
+                  </View>
+
+                  <View className="flex-1">
+                    <Text>1. Appointment Booking:</Text>
+                  </View>
+                  <View className="flex-1">
+                    <Text>
+                      By booking a service appointment through the App, users
+                      confirm their agreement to these terms and conditions.
+                      Users must provide accurate information regarding the type
+                      of service required and any specific requests or
+                      instructions.:
+                    </Text>
+                  </View>
+                </View>
+              </View>
+              <View className="flex-1 flex-row">
+                <View className="flex-1 flex-row justify-center items-center space-x-2">
+                  <TouchableOpacity
+                    className="bg-green-500 p-2 rounded grow items-center"
+                    onPress={() => {
+                      [setShowModal(false), setIsCheck(true)];
+                    }}
+                  >
+                    <Text className="text-white">Accept</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    className="border border-zinc-500 p-2 rounded grow items-center"
+                    onPress={() => {
+                      [setShowModal(false), setIsCheck(true)];
+                    }}
+                  >
+                    <Text className="">Cancel</Text>
+                  </TouchableOpacity>
+                  {/* <TouchableOpacity
+                      className="bg-red-500 p-3 rounded grow items-center"
+                      onPress={() => {
+                        // Handle modal action
+                        [setShowModal(false), cancelOrder(itemID)];
+                      }}
+                    >
+                      <Text className="text-white">Yes</Text>
+                    </TouchableOpacity> */}
+                </View>
+              </View>
+            </View>
+          </Modal.Body>
+        </Modal.Content>
+      </Modal>
     </KeyboardAwareScrollView>
   );
 };
