@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Mobile",
-    "slug": "Mobile",
+    "name": "TeamPoor",
+    "slug": "teampoor",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/teampoor-icon.png",
