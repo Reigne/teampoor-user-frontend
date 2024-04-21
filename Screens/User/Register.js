@@ -349,24 +349,153 @@ const Register = () => {
                       </Text>
                     </View>
 
-                    <View className="flex-1">
+                    <View className="flex-1 space-y-1">
+                      <Text className="font-semibold">1. Introduction</Text>
+
                       <Text>
-                        When scheduling a service appointment through the [Your
-                        Motorcycle Shop] mobile application ("the App"), users
-                        agree to the following terms and conditions:
+                        These Terms and Conditions govern the use of the
+                        products and services provided by TEAM POOR: System for
+                        Managing Motorcycle Parts and Services on our website
+                        and mobile application. By accessing or using the
+                        Platform, you agree to be bound by these Terms and
+                        Conditions in full. If you disagree with these Terms and
+                        Conditions or any part of these terms, you must not use
+                        the Platform.
                       </Text>
                     </View>
 
-                    <View className="flex-1">
-                      <Text>1. Appointment Booking:</Text>
-                    </View>
-                    <View className="flex-1">
+                    <View className="flex-1 space-y-1">
+                      <Text className="font-semibold">
+                        2. Products and Services
+                      </Text>
+
                       <Text>
-                        By booking a service appointment through the App, users
-                        confirm their agreement to these terms and conditions.
-                        Users must provide accurate information regarding the
-                        type of service required and any specific requests or
-                        instructions.:
+                        2.1. TEAM POOR: System for Managing Motorcycle Parts and
+                        Services provides motorcycle products and services
+                        including but not limited to sales of motorcycles,
+                        parts, accessories, maintenance, repair services, and
+                        related products.
+                      </Text>
+                      <Text>
+                        2.2. The availability of products and services may vary
+                        depending on location and other factors. The Company
+                        reserves the right to modify, suspend, or discontinue
+                        any aspect of the products or services at any time
+                        without prior notice.
+                      </Text>
+                    </View>
+
+                    <View className="flex-1 space-y-1">
+                      <Text className="font-semibold">
+                        3. Orders and Payments
+                      </Text>
+
+                      <Text>
+                        3.1. By placing an order through the Platform, you agree
+                        to provide accurate and complete information about
+                        yourself and your payment method. You also authorize the
+                        TEAM POOR to charge the specified payment method for the
+                        total amount of the order, including any applicable
+                        taxes and shipping fees.
+                      </Text>
+                      <Text>
+                        3.2. TEAM POOR: System for Managing Motorcycle Parts and
+                        Services reserves the right to refuse or cancel any
+                        order for any reason, including but not limited to
+                        product availability, errors in pricing or product
+                        information, or suspicion of fraudulent activity.
+                      </Text>
+                      <Text>
+                        3.3. All prices displayed on the Platform are in the
+                        local currency and are subject to change without notice.
+                        The TEAM POOR is not responsible for any discrepancies
+                        in pricing or product information provided by
+                        third-party vendors.
+                      </Text>
+                    </View>
+
+                    <View className="flex-1 space-y-1">
+                      <Text className="font-semibold">4. Product Warranty</Text>
+
+                      <Text>
+                        4.1. The TEAM POOR: System for Managing Motorcycle Parts
+                        and Services warrants that all products sold through the
+                        Platform are free from defects in materials and
+                        workmanship under normal use for a period of 7 days from
+                        the date of purchase, unless otherwise specified.
+                      </Text>
+                      <Text>
+                        4.2. During the Warranty Period, if the Product fails to
+                        conform to the above warranty, Customer may submit a
+                        warranty claim to TEAM POOR. Customer must provide proof
+                        of purchase and a description of the defect.
+                      </Text>
+                      <Text>
+                        4.3. If the TEAM POOR determines that the Product is
+                        defective within the Warranty Period, TEAM POOR shall,
+                        at its option, repair or replace the defective Product,
+                        or refund the purchase price.
+                      </Text>
+                      <Text>
+                        4.5. TEAM POOR'S liability under this warranty shall be
+                        limited to the repair, replacement, or refund of the
+                        purchase price of the defective Product. In no event
+                        shall Manufacturer be liable for any incidental,
+                        consequential, or punitive damages.
+                      </Text>
+                    </View>
+
+                    <View className="flex-1 space-y-1">
+                      <Text className="font-semibold">
+                        5. Limitation of Liability
+                      </Text>
+
+                      <Text>
+                        5.1. In no event shall the TEAM POOR: System for
+                        Managing Motorcycle Parts and Services be liable for any
+                        indirect, incidental, special, consequential, or
+                        punitive damages, including but not limited to loss of
+                        profits, data, or goodwill, arising out of or in
+                        connection with the use of or inability to use the
+                        Platform or any products or services obtained through
+                        the Platform.
+                      </Text>
+                      <Text>
+                        5.2. The total liability of the TEAM POOR for any claim
+                        arising out of or relating to these Terms and Conditions
+                        or the use of the Platform shall not exceed the total
+                        amount paid by you to the Company for the products or
+                        services giving rise to the claim.
+                      </Text>
+                    </View>
+
+                    <View className="flex-1 space-y-1">
+                      <Text className="font-semibold">
+                        6. Changes to Terms and Conditions
+                      </Text>
+
+                      <Text>
+                        6.1. The TEAM POOR: System for Managing Motorcycle Parts
+                        and Services reserves the right to modify or replace
+                        these Terms and Conditions at any time without prior
+                        notice. Your continued use of the Platform after any
+                        such changes constitutes your acceptance of the new
+                        Terms and Conditions.
+                      </Text>
+                    </View>
+
+                    <View className="flex-1 space-y-1">
+                      <Text>
+                        By engaging in TEAM POOR: System for Managing Motorcycle
+                        Parts and Services reserves, you acknowledge that you
+                        have read, understood, and agreed to abide by these
+                        terms and conditions. If you have any questions or
+                        concerns, please contact us before clicking the 'Agree'
+                        button to proceed. If you do not agree with the terms
+                        and conditions, please click the 'Disagree' button. Your
+                        continued use or acceptance of the agreement implies
+                        your understanding and acceptance of the terms and
+                        conditions.
                       </Text>
                     </View>
                   </View>
@@ -374,20 +503,20 @@ const Register = () => {
                 <View className="flex-1 flex-row">
                   <View className="flex-1 flex-row justify-center items-center space-x-2">
                     <TouchableOpacity
+                      className="border border-zinc-500 p-2 rounded grow items-center"
+                      onPress={() => {
+                        [setShowModal(false)];
+                      }}
+                    >
+                      <Text className="">Cancel</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
                       className="bg-green-500 p-2 rounded grow items-center"
                       onPress={() => {
                         [setShowModal(false), setIsCheck(true)];
                       }}
                     >
                       <Text className="text-white">Accept</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      className="border border-zinc-500 p-2 rounded grow items-center"
-                      onPress={() => {
-                        [setShowModal(false), setIsCheck(true)];
-                      }}
-                    >
-                      <Text className="">Cancel</Text>
                     </TouchableOpacity>
                   </View>
                 </View>
