@@ -475,7 +475,7 @@ const AppointmentDetails = (props) => {
 
           <View className="border-b border-zinc-200" />
 
-          {item.appointmentService.map((service, index) => (
+          {item.appointmentServices.map((service, index) => (
             <View className="bg-zinc-100 p-2 rounded flex flex-row space-x-2 items-center">
               <Image
                 className="rounded"

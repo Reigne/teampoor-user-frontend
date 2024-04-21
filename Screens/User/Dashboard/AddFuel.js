@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Button,
   StyleSheet,
+  ActivityIndicator,
 } from "react-native";
 import { CalendarDaysIcon } from "react-native-heroicons/solid";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
@@ -240,6 +241,8 @@ const AddFuel = (props) => {
   };
 
   const handleSubmit = () => {
+    setLoading(true);
+
     if (!validateForm()) {
       setLoading(false);
       return;
@@ -593,10 +596,21 @@ const AddFuel = (props) => {
 
       <View className="my-3 justify-center items-center px-4">
         <TouchableOpacity
-          className="py-4 w-full bg-red-500 rounded-xl items-center"
+          className={
+            loading
+              ? "py-4 w-full bg-zinc-500 rounded-xl items-center"
+              : "py-4 w-full bg-red-500 rounded-xl items-center"
+          }
           onPress={() => handleSubmit()}
+          disabled={loading === true}
         >
-          <Text className="font-bold text-white">{item ? "Update Fuel" : "Create Fuel"}</Text>
+          <View className="flex flex-row space-x-2 items-center justify-center">
+            <Text className="font-bold text-white">
+              {item ? "Update Fuel" : "Create Fuel"}
+            </Text>
+
+            {loading && <ActivityIndicator size="small" color="white" />}
+          </View>
         </TouchableOpacity>
       </View>
     </ScrollView>

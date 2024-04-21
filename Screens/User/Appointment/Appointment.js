@@ -39,14 +39,12 @@ const Appointment = (props) => {
   const fetchAppointments = async () => {
     setIsLoading(true);
     try {
-      const response = await axios.get(
-        `${baseURL}appointments/user/${userID}?page=${page}`
-      );
-      if (page === 1) {
-        setAppointments(response.data);
-      } else {
-        setAppointments([...appointments, ...response.data]);
-      }
+      const response = await axios.get(`${baseURL}appointments/user/${userID}`);
+      // if (page === 1) {
+      setAppointments(response.data);
+      // } else {
+      //   setAppointments(prevAppointments => [...prevAppointments, ...response.data]);
+      // }
     } catch (error) {
       console.log(error);
     } finally {
@@ -60,7 +58,8 @@ const Appointment = (props) => {
       await axios.put(`${baseURL}appointments/update/${id}`, {
         status: "CANCELLED",
       });
-      // Call fetchAppointments again to update the list
+      // Call fetchAppointments again to update the lissat
+      setAppointments([]);
       fetchAppointments();
 
       Toast.show({
@@ -174,7 +173,7 @@ const Appointment = (props) => {
         <View className="border-b border-zinc-300" />
 
         <View className="space-y-2">
-          {item?.appointmentService?.map((service, index) => (
+          {item?.appointmentServices?.map((service, index) => (
             <View className="flex flex-row space-x-4">
               <View>
                 <Image
@@ -252,8 +251,8 @@ const Appointment = (props) => {
                 </View>
               )}
               // renderItem={renderAppointment}
-              onEndReached={loadMore}
-              onEndReachedThreshold={0.1}
+              // onEndReached={loadMore}
+              // onEndReachedThreshold={0.1}
               // ListFooterComponent={() =>
               //   isFetching ? (
               //     <ActivityIndicator size="large" color="red" />

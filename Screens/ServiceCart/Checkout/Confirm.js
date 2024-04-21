@@ -6,6 +6,7 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  ActivityIndicator,
 } from "react-native";
 import { Dropdown } from "react-native-element-dropdown";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -29,6 +30,7 @@ const Confirm = (props) => {
   const [token, setToken] = useState();
   const [serviceItem, setServiceItem] = useState([]);
   const [isCheck, setIsCheck] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
   let navigation = useNavigation();
@@ -39,6 +41,8 @@ const Confirm = (props) => {
   // console.log(finalService?.serviceCart?.serviceItems[0], "finalService");
 
   const submitHandler = () => {
+    setIsLoading(true);
+    
     const service = finalService;
     const serviceSelected =
       finalService?.serviceCart?.selectedServices?.services;
@@ -87,9 +91,11 @@ const Confirm = (props) => {
             //   routes: [{ name: "HomeService" }],
             // });
           }, 500);
+
+          setIsLoading(false);
         }
       })
-      .catch((error) =>
+      .catch((error) => {
         Toast.show({
           topOffset: 60,
           type: "error",
@@ -97,8 +103,9 @@ const Confirm = (props) => {
           text2:
             error.response.data ||
             "Something went wrong. Please try again later.",
-        })
-      );
+        });
+        setIsLoading(false);
+      });
   };
 
   return (
@@ -252,15 +259,21 @@ const Confirm = (props) => {
           <TouchableOpacity
             onPress={() => submitHandler()}
             className={
-              isCheck === true
+              isLoading
+                ? "bg-zinc-500 w-full py-3 rounded-xl items-center"
+                : isCheck === true
                 ? "bg-red-500 w-full py-3 rounded-xl items-center"
                 : "bg-zinc-500 w-full py-3 rounded-xl items-center"
             }
-            disabled={isCheck === false}
+            disabled={isLoading === true || isCheck === false}
           >
-            <Text className="font-bold text-base text-white">
-              Place Appointment
-            </Text>
+            <View className="flex flex-row space-x-2 items-center justify-center">
+              <Text className="font-xl font-bold text-center text-white">
+                {isLoading ? "Loading..." : "Place Appointment"}
+              </Text>
+
+              {isLoading && <ActivityIndicator size="small" color="white" />}
+            </View>
           </TouchableOpacity>
         </View>
       </View>

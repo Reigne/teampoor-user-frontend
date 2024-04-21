@@ -295,7 +295,6 @@ const ProductContainer = () => {
                   <View className="p-2 mt-2 mb-1">
                     <View className="flex-row items-center justify-between">
                       <Text className="font-bold text-xl">Products</Text>
-                      <Text className="text-xs">View All</Text>
                     </View>
                   </View>
 

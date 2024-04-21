@@ -93,12 +93,14 @@ const Appointment = (props) => {
         //   setSelectedAddressId(res.data[0]._id);
         // }
 
-        const defaultAddress = res.data.find(address => address.isDefault === true);
+        const defaultAddress = res.data.find(
+          (address) => address.isDefault === true
+        );
 
         if (defaultAddress) {
           setSelectedAddressId(defaultAddress._id);
           setUsedAddress(defaultAddress);
-        } 
+        }
 
         // else if (res.data.length > 0 && selectedAddressId === null) {
         //   // If there is no default address but there are addresses, set selectedAddressId to the ID of the first address
@@ -164,7 +166,7 @@ const Appointment = (props) => {
       return;
     }
 
-    if (serviceCart?.selectedServices?.services[0]?.type === 2) {
+    if (serviceCart?.selectedServices?.type === 2) {
       if (!usedAddress) {
         Toast.show({
           topOffset: 60,
@@ -177,7 +179,7 @@ const Appointment = (props) => {
       }
     }
 
-    console.log(serviceCart.type, "cart cart cart ");
+    console.log(serviceCart?.selectedServices?.type, "cart cart cart type");
 
     serviceCart.selectedServices.services.forEach((service) => {
       total += service.price;
@@ -190,7 +192,7 @@ const Appointment = (props) => {
     //   "serviceCart serviceCart serviceCart"
     // );
 
-    if (serviceCart?.selectedServices?.services[0]?.type === 1) {
+    if (serviceCart?.selectedServices?.type === 1) {
       let serviceAppointment = {
         fullname: user.firstname + " " + user.lastname,
         phone: user.phone,
@@ -211,7 +213,7 @@ const Appointment = (props) => {
       console.log(serviceAppointment, "submit 1");
 
       navigation.navigate("Confirm", serviceAppointment);
-    } else if (serviceCart?.selectedServices?.services[0]?.type === 2) {
+    } else if (serviceCart?.selectedServices?.type === 2) {
       const regionCode = usedAddress.region;
       const provinceCode = usedAddress.province;
       const cityCode = usedAddress.city;
@@ -367,7 +369,7 @@ const Appointment = (props) => {
         </View>
       </View>
 
-      {serviceCart?.selectedServices?.services[0]?.type === 2 && (
+      {serviceCart?.selectedServices?.type === 2 && (
         <View className="bg-white p-3 rounded-xl space-y-3">
           <View>
             <View className="flex flex-row justify-between items-center">

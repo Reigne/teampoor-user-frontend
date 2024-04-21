@@ -1,5 +1,12 @@
 import React, { useState, useEffect, useContext, useCallback } from "react";
-import { View, Text, Image, TouchableOpacity, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  TextInput,
+  ActivityIndicator,
+} from "react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -46,6 +53,7 @@ const AddressForm = (props) => {
 
   const [token, setToken] = useState();
   const [errors, setErrors] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     if (!props.route.params) {
@@ -128,7 +136,11 @@ const AddressForm = (props) => {
     setSelectedBarangay(value);
   };
   const handleSubmit = () => {
+    setIsLoading(true);
+
     if (!validateForm()) {
+      setIsLoading(false);
+
       return;
     }
 
@@ -166,9 +178,13 @@ const AddressForm = (props) => {
 
     // console.log(addressDetails._id, "asdasdasdads")
 
-    if(item !== null) {
+    if (item !== null) {
       axios
-        .put(`${baseURL}addresses/update/${addressDetails._id}`, formData, config)
+        .put(
+          `${baseURL}addresses/update/${addressDetails._id}`,
+          formData,
+          config
+        )
         .then((res) => {
           if (res.status == 200 || res.status == 201) {
             Toast.show({
@@ -181,10 +197,15 @@ const AddressForm = (props) => {
             setTimeout(() => {
               navigation.navigate("Address");
             }, 500);
+
+            setIsLoading(false);
           }
         })
         .catch((error) => {
           console.log(error);
+
+          setIsLoading(false);
+
           Toast.show({
             topOffset: 60,
             type: "error",
@@ -207,10 +228,15 @@ const AddressForm = (props) => {
             setTimeout(() => {
               navigation.navigate("Address");
             }, 500);
+
+            setIsLoading(false);
           }
         })
         .catch((error) => {
           console.log(error);
+
+          setIsLoading(false);
+
           Toast.show({
             topOffset: 60,
             type: "error",
@@ -417,10 +443,21 @@ const AddressForm = (props) => {
 
       <View className="my-3 justify-center items-center px-4">
         <TouchableOpacity
-          className="py-4 w-full bg-red-500 rounded-xl items-center"
+          className={
+            isLoading
+              ? "py-4 w-full bg-zinc-500 rounded-xl items-center"
+              : "py-4 w-full bg-red-500 rounded-xl items-center"
+          }
           onPress={() => handleSubmit()}
+          disabled={isLoading ? true : false}
         >
-          <Text className="font-bold text-white">Create Address</Text>
+          <View className="flex flex-row space-x-2 items-center justify-center">
+            <Text className="font-xl font-bold text-center text-white">
+              {isLoading ? "Loading..." : "Create Address"}
+            </Text>
+
+            {isLoading && <ActivityIndicator size="small" color="white" />}
+          </View>
         </TouchableOpacity>
       </View>
     </KeyboardAwareScrollView>

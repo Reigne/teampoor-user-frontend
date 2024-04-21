@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Text, TouchableOpacity, View, Image, Linking } from "react-native";
+import {
+  Text,
+  TouchableOpacity,
+  View,
+  Image,
+  Linking,
+  ActivityIndicator,
+} from "react-native";
 import Toast from "react-native-toast-message";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
@@ -14,6 +21,7 @@ import { Checkbox, Modal } from "native-base";
 const Confirm = (props) => {
   const [token, setToken] = useState();
   const [isCheck, setIsCheck] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
   const finalOrder = props.route.params;
@@ -32,6 +40,8 @@ const Confirm = (props) => {
   // }, []);
 
   const confirmOrder = () => {
+    setIsLoading(true);
+
     const order = finalOrder.order.order;
     const payment = finalOrder.payment;
 
@@ -67,20 +77,25 @@ const Confirm = (props) => {
           });
 
           if (finalOrder.payment.paymentMethod === "GCash") {
-            console.log(res, "response");
+            console.log(res.data, "response");
 
-            const { checkoutUrl } = res.data;
+            handlePayMongo(res.data.items, res.data.temporaryLink);
 
-            Linking.openURL(checkoutUrl);
+            // const { checkoutUrl } = res.data;
+
+            // Linking.openURL(checkoutUrl);
           }
+
           setTimeout(() => {
             dispatch(actions.clearCart());
 
             navigation.navigate("SuccessOrder"); // Navigate to SuccessOrder screen
           }, 500);
+
+          setIsLoading(false);
         }
       })
-      .catch((error) =>
+      .catch((error) => {
         Toast.show({
           topOffset: 60,
           type: "error",
@@ -88,8 +103,47 @@ const Confirm = (props) => {
           text2:
             error.response.data ||
             "Something went wrong. Please try again later.",
-        })
-      );
+        });
+
+        setIsLoading(false);
+      });
+  };
+
+  const handlePayMongo = (items, link) => {
+    const options = {
+      method: "POST",
+      url: "https://api.paymongo.com/v1/checkout_sessions",
+      headers: {
+        accept: "application/json",
+        "Content-Type": "application/json",
+        authorization:
+          "Basic c2tfdGVzdF9KMlBMVlp3ZHV3OExwV3hGeWhZZnRlQWQ6cGtfdGVzdF9kYmpQaUZDVGJqaHlUUnVCbmVRdW1OSkY=",
+      },
+      data: {
+        data: {
+          attributes: {
+            send_email_receipt: true,
+            show_description: true,
+            show_line_items: true,
+            line_items: items,
+            payment_method_types: ["gcash"],
+            description: "TeamPoor - Motorcycle Shop",
+            success_url: `${link}`,
+          },
+        },
+      },
+    };
+
+    axios
+      .request(options)
+      .then(function (response) {
+        console.log(response.data);
+        const checkoutUrl = response.data.data.attributes.checkout_url;
+        Linking.openURL(checkoutUrl); // Redirect the user to the checkout URL
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
   };
 
   return (
@@ -256,17 +310,21 @@ const Confirm = (props) => {
       <View className="px-4 my-4 ">
         <TouchableOpacity
           className={
-            isCheck === true
-              ? "bg-red-500 py-4 rounded-2xl items-center"
-              : "bg-zinc-500 py-4 rounded-2xl items-center"
+            isLoading
+              ? "bg-zinc-500 py-4 rounded-2xl mt-5"
+              : isCheck === false
+              ? "bg-zinc-500 py-4 rounded-2xl mt-5"
+              : "bg-red-500 py-4 rounded-2xl mt-5"
           }
           onPress={() => confirmOrder()}
           disabled={isCheck === false}
         >
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Text className="text-base font-bold text-center text-white">
-              Place Order
+          <View className="flex flex-row space-x-2 items-center justify-center">
+            <Text className="font-xl font-bold text-center text-white">
+              {isLoading ? "Loading..." : "Place Order"}
             </Text>
+
+            {isLoading && <ActivityIndicator size="small" color="white" />}
           </View>
         </TouchableOpacity>
       </View>

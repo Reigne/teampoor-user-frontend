@@ -155,10 +155,12 @@ const OrderDetails = (props) => {
 
           console.log(res, "response");
 
-          const { checkoutUrl } = res.data;
+          handlePayMongo(res.data.items, res.data.temporaryLink);
+
+          // const { checkoutUrl } = res.data;
 
           // Open the checkout URL in the user's default browser
-          Linking.openURL(checkoutUrl);
+          // Linking.openURL(checkoutUrl);
 
           // Redirect user to payment page
 
@@ -178,6 +180,43 @@ const OrderDetails = (props) => {
             "Something went wrong. Please try again later.",
         })
       );
+  };
+
+  const handlePayMongo = (items, link) => {
+    const options = {
+      method: "POST",
+      url: "https://api.paymongo.com/v1/checkout_sessions",
+      headers: {
+        accept: "application/json",
+        "Content-Type": "application/json",
+        authorization:
+          "Basic c2tfdGVzdF9KMlBMVlp3ZHV3OExwV3hGeWhZZnRlQWQ6cGtfdGVzdF9kYmpQaUZDVGJqaHlUUnVCbmVRdW1OSkY=",
+      },
+      data: {
+        data: {
+          attributes: {
+            send_email_receipt: true,
+            show_description: true,
+            show_line_items: true,
+            line_items: items,
+            payment_method_types: ["gcash"],
+            description: "TeamPoor - Motorcycle Shop",
+            success_url: `${link}`,
+          },
+        },
+      },
+    };
+
+    axios
+      .request(options)
+      .then(function (response) {
+        console.log(response.data);
+        const checkoutUrl = response.data.data.attributes.checkout_url;
+        Linking.openURL(checkoutUrl); // Redirect the user to the checkout URL
+      })
+      .catch(function (error) {
+        console.error(error);
+      });
   };
 
   return (

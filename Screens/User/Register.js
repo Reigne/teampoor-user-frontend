@@ -1,25 +1,29 @@
 import React, { useState } from "react";
-import { View, Text, Image, TouchableOpacity, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  TextInput,
+  ActivityIndicator,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import axios from "axios";
 import baseURL from "../../assets/common/baseUrl";
 import Toast from "react-native-toast-message";
-import Login from "./Login";
 import { ChevronLeftIcon } from "react-native-heroicons/solid";
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from "react-native-responsive-screen";
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { Checkbox, Modal } from "native-base";
 
-const Register = (props) => {
-  const navigation = useNavigation();
+const Register = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const [isCheck, setIsCheck] = useState(false);
   const [showModal, setShowModal] = useState(false);
+
+  const navigation = useNavigation();
 
   const phoneRegExp = /^9\d{9}$/;
 
@@ -36,11 +40,13 @@ const Register = (props) => {
   });
 
   const handleSubmit = (values) => {
+    setIsLoading(true);
+
     let user = {
       firstname: values.firstname,
       lastname: values.lastname,
       email: values.email,
-      phone: "+63" + values.phone, // Prepend the phone number with "+63"
+      phone: "+63" + values.phone,
       email: values.email,
       password: values.password,
     };
@@ -56,11 +62,13 @@ const Register = (props) => {
             text2: "Please Login into your account",
           });
           setTimeout(() => {
+            setIsLoading(false);
             navigation.navigate("Login");
           }, 500);
         }
       })
       .catch((error) => {
+        setIsLoading(false);
         if (error.response) {
           const errorMessage = error.response.data;
 
@@ -143,7 +151,6 @@ const Register = (props) => {
                 style={{
                   borderTopLeftRadius: 50,
                   borderTopRightRadius: 50,
-                  // height: hp("80%")
                 }}
               >
                 <View className="form space-y-2">
@@ -158,7 +165,6 @@ const Register = (props) => {
                           ? "border border-red-500 p-4 bg-gray-100 text-gray-700 rounded-2xl mb-1"
                           : "p-4 bg-gray-100 text-gray-700 rounded-2xl mb-1"
                       }
-                      // className="p-4 bg-gray-100 text-gray-700 rounded-2xl mb-1 w-44"
                       placeholder="e.g Carl"
                       name={"firstname"}
                       id={"firstname"}
@@ -179,7 +185,6 @@ const Register = (props) => {
                           ? "border border-red-500 p-4 bg-gray-100 text-gray-700 rounded-2xl mb-1"
                           : "p-4 bg-gray-100 text-gray-700 rounded-2xl mb-1"
                       }
-                      // className="p-4  bg-gray-100 text-gray-700 rounded-2xl mb-1 w-44"
                       placeholder="e.g Juan"
                       name={"lastname"}
                       id={"lastname"}
@@ -193,31 +198,6 @@ const Register = (props) => {
                       )}
                     </View>
                   </View>
-
-                  {/* <View className="">
-                    <Text className="mb-2">Mobile Number *</Text>
-                    <TextInput
-                      className={
-                        errors.phone
-                          ? "border border-red-500 p-4 bg-gray-100 text-gray-700 rounded-2xl mb-1"
-                          : "p-4 bg-gray-100 text-gray-700 rounded-2xl mb-1"
-                      }
-                      // className="p-4  bg-gray-100 text-gray-700 rounded-2xl mb-1 w-44"
-                      placeholder="e.g 09219201772"
-                      name={"phone"}
-                      id={"phone"}
-                      value={values.phone}
-                      onChangeText={handleChange("phone")}
-                      keyboardType={"phone-pad"}
-                      maxLength={11}
-                    ></TextInput>
-
-                    <View className="">
-                      {touched.phone && errors.phone && (
-                        <Text className="text-red-500">{errors.phone}</Text>
-                      )}
-                    </View>
-                  </View> */}
 
                   <View className="">
                     <Text className="mb-2">Mobile Number *</Text>
@@ -250,50 +230,54 @@ const Register = (props) => {
                     </View>
                   </View>
 
-                  <Text>Email *</Text>
-                  <TextInput
-                    className={
-                      errors.email
-                        ? "border border-red-500 p-4 bg-gray-100 text-gray-700 rounded-2xl"
-                        : "p-4 bg-gray-100 text-gray-700 rounded-2xl "
-                    }
-                    placeholder="e.g Motorcycle@email.com"
-                    name={"email"}
-                    id={"email"}
-                    value={values.email}
-                    onChangeText={(text) =>
-                      handleChange("email")(text.toLowerCase())
-                    }
-                  />
+                  <View className="space-y-1">
+                    <Text>Email *</Text>
+                    <TextInput
+                      className={
+                        errors.email
+                          ? "border border-red-500 p-4 bg-gray-100 text-gray-700 rounded-2xl"
+                          : "p-4 bg-gray-100 text-gray-700 rounded-2xl "
+                      }
+                      placeholder="e.g Motorcycle@email.com"
+                      name={"email"}
+                      id={"email"}
+                      value={values.email}
+                      onChangeText={(text) =>
+                        handleChange("email")(text.toLowerCase())
+                      }
+                    />
 
-                  <View className="">
-                    {touched.email && errors.email && (
-                      <Text className="text-red-500">{errors.email}</Text>
-                    )}
+                    <View className="">
+                      {touched.email && errors.email && (
+                        <Text className="text-red-500">{errors.email}</Text>
+                      )}
+                    </View>
                   </View>
 
-                  <Text>Password *</Text>
-                  <TextInput
-                    secureTextEntry={true}
-                    className={
-                      errors.password
-                        ? "border border-red-500 p-4 bg-gray-100 text-gray-700 rounded-2xl"
-                        : "p-4 bg-gray-100 text-gray-700 rounded-2xl"
-                    }
-                    placeholder="Enter password"
-                    name={"password"}
-                    id={"password"}
-                    value={values.password}
-                    onChangeText={handleChange("password")}
-                  ></TextInput>
+                  <View className="space-y-1">
+                    <Text>Password *</Text>
+                    <TextInput
+                      secureTextEntry={true}
+                      className={
+                        errors.password
+                          ? "border border-red-500 p-4 bg-gray-100 text-gray-700 rounded-2xl"
+                          : "p-4 bg-gray-100 text-gray-700 rounded-2xl"
+                      }
+                      placeholder="Enter password"
+                      name={"password"}
+                      id={"password"}
+                      value={values.password}
+                      onChangeText={handleChange("password")}
+                    ></TextInput>
 
-                  {touched.password && errors.password && (
-                    <View className="mb-3">
-                      <Text className="text-red-500 mb-3">
-                        {errors.password}
-                      </Text>
-                    </View>
-                  )}
+                    {touched.password && errors.password && (
+                      <View className="mb-3">
+                        <Text className="text-red-500 mb-3">
+                          {errors.password}
+                        </Text>
+                      </View>
+                    )}
+                  </View>
 
                   <View className="mt-5">
                     <View className="flex flex-row space-x-2 items-center">
@@ -315,16 +299,24 @@ const Register = (props) => {
 
                     <TouchableOpacity
                       className={
-                        isCheck === true
-                          ? "bg-red-500 py-4 rounded-2xl mt-5"
-                          : "bg-zinc-500 py-4 rounded-2xl mt-5"
+                        isLoading
+                          ? "bg-zinc-500 py-4 rounded-2xl mt-5"
+                          : isCheck === false
+                          ? "bg-zinc-500 py-4 rounded-2xl mt-5"
+                          : "bg-red-500 py-4 rounded-2xl mt-5"
                       }
                       onPress={() => handleSubmit()}
-                      disabled={isCheck === false}
+                      disabled={isLoading === true || isCheck === false}
                     >
-                      <Text className="font-xl font-bold text-center text-white">
-                        Sign Up
-                      </Text>
+                      <View className="flex flex-row space-x-2 items-center justify-center">
+                        <Text className="font-xl font-bold text-center text-white">
+                          {isLoading ? "Loading..." : "Sign Up"}
+                        </Text>
+
+                        {isLoading && (
+                          <ActivityIndicator size="small" color="white" />
+                        )}
+                      </View>
                     </TouchableOpacity>
 
                     <View className="flex flex-row text-center justify-center mb-5">
@@ -351,8 +343,6 @@ const Register = (props) => {
               <View className="space-y-4">
                 <View className="flex-1">
                   <View className="flex-1 space-y-2">
-                    {/* Your modal content goes here */}
-
                     <View>
                       <Text className="text-xl font-bold">
                         Terms and Conditions
@@ -399,15 +389,6 @@ const Register = (props) => {
                     >
                       <Text className="">Cancel</Text>
                     </TouchableOpacity>
-                    {/* <TouchableOpacity
-                      className="bg-red-500 p-3 rounded grow items-center"
-                      onPress={() => {
-                        // Handle modal action
-                        [setShowModal(false), cancelOrder(itemID)];
-                      }}
-                    >
-                      <Text className="text-white">Yes</Text>
-                    </TouchableOpacity> */}
                   </View>
                 </View>
               </View>

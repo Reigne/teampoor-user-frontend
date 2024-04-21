@@ -1,13 +1,13 @@
 {
   "expo": {
     "name": "TeamPoor",
-    "slug": "teampoor",
+    "slug": "teampoor-user",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/teampoor-icon.png",
+    "icon": "./assets/icon-teampoor-user.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash-teampoor.png",
+      "image": "./assets/splash-teampoor-user.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -19,12 +19,19 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/icon-teampoor-user.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.teampoor.app"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
-    }
+      "favicon": "./assets/icon-teampoor-user.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "da981573-b7bf-4c6b-bb98-050e4b5fb22c"
+      }
+    },
+    "owner": "reigneexpo"
   }
 }

@@ -26,7 +26,9 @@ export default function App() {
           <NavigationContainer>
             <Main />
             <Toast />
-            <StatusBar style="auto" animated={true} />
+            <StatusBar style="auto" 
+            // animated={true}
+             />
           </NavigationContainer>
         </NativeBaseProvider>
       </Provider>

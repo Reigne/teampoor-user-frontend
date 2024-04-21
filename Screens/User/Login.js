@@ -6,7 +6,6 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 import Register from "./Register";
 import AuthGlobal from "../../Context/Store/AuthGlobal";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { HelperText } from "react-native-paper";
 import { loginUser } from "../../Context/Actions/Auth.actions";
 import Error from "../../Shared/Error";
 import Toast from "react-native-toast-message";

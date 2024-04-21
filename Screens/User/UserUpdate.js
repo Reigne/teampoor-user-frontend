@@ -1,6 +1,13 @@
-import { View, Text, Image, TouchableOpacity, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  TextInput,
+  ActivityIndicator,
+} from "react-native";
 import React, { useState, useEffect, useContext, useCallback } from "react";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import Toast from "react-native-toast-message";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -17,15 +24,11 @@ import {
   provinces,
   cities,
   barangays,
-  regionByCode,
-  provincesByCode,
-  provinceByName,
 } from "select-philippines-address";
 
-import { Select, ZStack, VStack, Box, Switch, Stack, Radio } from "native-base";
+import { Stack, Radio } from "native-base";
 
 const UserUpdate = (props) => {
-  // console.log(props.route.params, "wow");
   let navigation = useNavigation();
   const [user, setUser] = useState(props.route.params.user);
   const [firstname, setFirstname] = useState("");
@@ -50,8 +53,7 @@ const UserUpdate = (props) => {
   const [token, setToken] = useState();
 
   const [errors, setErrors] = useState({});
-
-  const context = useContext(AuthGlobal);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setFirstname(user.firstname || "");
@@ -81,7 +83,6 @@ const UserUpdate = (props) => {
     );
     setSelectedBarangay(user.barangay || "");
 
-    // Fetch the list of regions when the component mounts
     regions().then((regionResponse) => setRegionData(regionResponse));
 
     AsyncStorage.getItem("jwt")
@@ -114,10 +115,6 @@ const UserUpdate = (props) => {
     }
   };
 
-  const handleGenderChange = (value) => {
-    setGender(value);
-  };
-
   const validateForm = () => {
     let errors = {};
 
@@ -126,7 +123,6 @@ const UserUpdate = (props) => {
     if (!phone) {
       errors.phone = "Phone number is required";
     } else {
-      // Add your phone number validation logic here
       const phoneRegExp = /^9\d{9}$/;
 
       if (!phoneRegExp.test(phone)) {
@@ -140,7 +136,10 @@ const UserUpdate = (props) => {
   };
 
   const updateProfile = (id) => {
+    setIsLoading(true);
+
     if (!validateForm()) {
+      setIsLoading(false);
       return;
     }
 
@@ -178,7 +177,8 @@ const UserUpdate = (props) => {
     axios
       .put(`${baseURL}users/profile/${id}`, formData, config)
       .then((res) => {
-        console.log("Profile updated successfully");
+        setIsLoading(false);
+
         Toast.show({
           type: "success",
           text1: "Success",
@@ -188,8 +188,8 @@ const UserUpdate = (props) => {
         navigation.navigate("UserProfile");
       })
       .catch((error) => {
-        // Handle error, e.g., show an error message
-        console.log("Error updating profile", error);
+        setIsLoading(false);
+
         Toast.show({
           type: "error",
           text1: "Error",
@@ -222,12 +222,6 @@ const UserUpdate = (props) => {
                     ? { uri: mainImage }
                     : require("../../assets/images/default-profile.jpg")
                 }
-                // source={{
-                //   uri: mainImage
-                //     ? mainImage
-                //     : "../../assets/images/default-profile.jpg",
-                // }}
-                // source={require("../../assets/images/default-profile.jpg")}
                 style={{ width: 200, height: 200 }}
                 className="rounded-full "
               />
@@ -251,17 +245,6 @@ const UserUpdate = (props) => {
               </View>
             </TouchableOpacity>
           </View>
-
-          {/* <SafeAreaView className="flex-row justify-between items-center w-full absolute">
-          <TouchableOpacity
-            className="rounded ml-4 mt-4 "
-            onPress={() => navigation.goBack()}
-          >
-            <View className="bg-white rounded-full p-1">
-              <ChevronLeftIcon size={wp(7)} color="red" />
-            </View>
-          </TouchableOpacity>
-        </SafeAreaView> */}
 
           <View
             className="flex-1 bg-white mt-5"
@@ -377,109 +360,24 @@ const UserUpdate = (props) => {
                 ) : null}
               </View>
 
-              {/* <View className="mb-5">
-                <Text className="mb-3">Region</Text>
-                <View className="bg-gray-100">
-                  <Select
-                    placeholder="Select a region"
-                    onValueChange={handleRegionChange}
-                    selectedValue={selectedRegion}
-                  >
-                    {regionData.map((region) => (
-                      <Select.Item
-                        key={region.region_code}
-                        label={region.region_name}
-                        value={region.region_code}
-                      />
-                    ))}
-                  </Select>
-                </View>
-              </View>
-
-              <View className="mb-5">
-                <Text className="mb-3">Province</Text>
-                <View className="bg-gray-100">
-                  <Select
-                    placeholder="Select a province"
-                    onValueChange={handleProvinceChange}
-                    selectedValue={selectedProvince}
-                  >
-                    {provinceData.map((province) => (
-                      <Select.Item
-                        key={province.province_code}
-                        label={province.province_name}
-                        value={province.province_code}
-                      />
-                    ))}
-                  </Select>
-                </View>
-              </View>
-
-              <View className="mb-5">
-                <Text className="mb-3">City</Text>
-                <View className="bg-gray-100">
-                  <Select
-                    placeholder="Select a city"
-                    onValueChange={handleCityChange}
-                    selectedValue={selectedCity}
-                  >
-                    {cityData.map((city) => (
-                      <Select.Item
-                        key={city.city_code}
-                        label={city.city_name}
-                        value={city.city_code}
-                      />
-                    ))}
-                  </Select>
-                </View>
-              </View>
-
-              <View className="mb-5">
-                <Text className="mb-3">Barangay</Text>
-                <View className="bg-gray-100">
-                  <Select
-                    placeholder="Select a barangay"
-                    onValueChange={handleBarangayChange}
-                    selectedValue={selectedBarangay}
-                  >
-                    {barangayData.map((barangay) => (
-                      <Select.Item
-                        key={barangay.brgy_code}
-                        label={barangay.brgy_name}
-                        value={barangay.brgy_code}
-                      />
-                    ))}
-                  </Select>
-                </View>
-              </View>
-
-              <Text>Postal Code</Text>
-              <TextInput
-                className="p-4 bg-gray-100 text-gray-700 rounded-2xl mb-3"
-                placeholder="Enter Postal Code"
-                value={postalcode}
-                name={"postalcode"}
-                id={"postalcode"}
-                onChangeText={(text) => setPostalcode(text)}
-              ></TextInput>
-
-              <Text>Address</Text>
-              <TextInput
-                className="p-4 bg-gray-100 text-gray-700 rounded-2xl mb-3"
-                placeholder="Enter Address"
-                value={address}
-                name={"address"}
-                id={"address"}
-                onChangeText={(text) => setAddress(text)}
-              ></TextInput> */}
-
               <TouchableOpacity
-                className="bg-red-500 py-4 rounded-2xl"
+                className={
+                  isLoading
+                    ? "bg-zinc-500 py-4 rounded-2xl"
+                    : "bg-red-500 py-4 rounded-2xl"
+                }
                 onPress={() => updateProfile(user.id)}
+                disabled={isLoading ? true : false}
               >
-                <Text className="font-xl font-bold text-center text-white">
-                  Update
-                </Text>
+                <View className="flex flex-row space-x-2 items-center justify-center">
+                  <Text className="font-xl font-bold text-center text-white">
+                    {isLoading ? "Loading..." : "Update"}
+                  </Text>
+
+                  {isLoading && (
+                    <ActivityIndicator size="small" color="white" />
+                  )}
+                </View>
               </TouchableOpacity>
             </View>
           </View>

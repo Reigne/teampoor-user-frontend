@@ -190,7 +190,7 @@ const MotorcycleForm = (props) => {
     if (!plateNumber) errors.plateNumber = "Plate number is required";
     if (!engineNumber) errors.engineNumber = "Engine number is required";
     if (!type) errors.type = "Type is required";
-    if (!fuel) errors.fuel = "Type is required";
+    if (!fuel) errors.fuel = "Fuel is required";
 
     if (imagePlateNumber.length === 0)
       errors.imagePlateNumber = "Image of Plate Number is required";
@@ -361,7 +361,7 @@ const MotorcycleForm = (props) => {
                   ? "border border-red-500 p-4 bg-gray-100 text-gray-700 rounded-2xl mb-1"
                   : "p-4 bg-gray-100 text-gray-700 rounded-2xl mb-1"
               }
-              placeholder="Enter motorycycle model"
+              placeholder="Enter motorcycle model"
               name="model"
               id="model"
               value={model}

@@ -173,7 +173,7 @@ const AppointmentList = ({ item, cancelHandler }) => {
       <View className="border-b border-zinc-300" />
 
       <View className="space-y-2">
-        {item?.appointmentService?.map((service, index) => (
+        {item?.appointmentServices?.map((service, index) => (
           <View className="flex flex-row space-x-4">
             <View>
               <Image

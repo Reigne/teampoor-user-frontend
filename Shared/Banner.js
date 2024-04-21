@@ -13,9 +13,10 @@ const Banner = () => {
 
   useEffect(() => {
     setBannerData([
-      "https://hondaph.com/cms/images/news/5f7c2f62796fe.png",
-      "https://www.webike.ph/ph_news/wp-content/uploads/2020/12/HONDA-PH-Promotion-1.png",
-      "https://wheels.com.ph/wp-content/uploads/2020/10/121198773_2736629883253327_339092979694998459_o.jpg",
+      "https://i.postimg.cc/L6MQLKx3/3.png",
+      "https://i.postimg.cc/GpNqpZBY/4.png",
+      "https://i.postimg.cc/hPyTLNn5/teampoor.png",
+      "https://i.postimg.cc/fW9t1kxD/teampoor-3.png",
     ]);
 
     return () => {
@@ -44,18 +45,20 @@ const Banner = () => {
   };
 
   return (
-    <View className="">
+    <View className="p-2">
       <FlatList
         ref={flatListRef}
         data={bannerData}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
-          <View className="flex justify-center items-center" style={{ width: wp("100%"), height: hp("26%")}}>
+          <View
+            className="flex justify-center items-center"
+
+>
             <Image
               source={{ uri: item }}
-              style={{ width: wp("95%"), height: hp("25%")}}
-              resizeMode="cover"
-              className="rounded-lg"
+              style={{ width: wp("100%"), height: hp("25%") }}
+              resizeMode="contain"
             />
           </View>
         )}

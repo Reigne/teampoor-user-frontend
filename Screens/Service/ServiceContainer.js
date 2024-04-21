@@ -141,7 +141,7 @@ const ServiceContainer = () => {
     <KeyboardAwareScrollView>
       <SafeAreaView>
         <View className="mt-2 p-3">
-          <View className="flex justify-center items-center  bg-white rounded-lg overflow-hidden">
+          <View className="flex justify-center items-center">
             <Image
               style={{ width: wp(100), height: hp("20%") }}
               source={require("../../assets/images/header-teampoor.jpg")}
