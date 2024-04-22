@@ -8,6 +8,7 @@ import {
   TouchableHighlight,
   TouchableOpacity,
   Linking,
+  Image,
 } from "react-native";
 import { Text, Center } from "native-base";
 import Banner from "../../Shared/Banner";
@@ -238,17 +239,17 @@ const ProductContainer = () => {
                   ) : null}
                 </View>
 
-                {focus === false ? (
-                  <View className="bg-red-500 p-3 rounded-full">
-                    {/* <UserCircleIcon height="20" width="20" strokeWidth={3} stroke="white" /> */}
-                    <UserIcon
-                      height="15"
-                      width="15"
-                      strokeWidth={3}
-                      stroke="white"
+                {/* {focus === false ? (
+                  <View className="bg-red-500 rounded-full">
+                    <Image
+                      source={require("../../assets/teampoor-icon.png")}
+                      style={{ width: 40, height: 40 }}
+                      className="rounded-full"
+                      resizeMode="contain"
+                      alt="teampoor logo"
                     />
                   </View>
-                ) : null}
+                ) : null} */}
               </View>
               {focus === true ? (
                 <SearchedProduct productsFiltered={productsFiltered} />
@@ -262,24 +263,11 @@ const ProductContainer = () => {
                       <Text>Services</Text>
                     </TouchableOpacity>
                   </View> */}
-                  <View className="mt-2">
+                  <View className="p-2">
                     <Banner />
                   </View>
-{/* 
-                  <View className="p-2">
-                    <TouchableOpacity
-                      className="bg-green-400 p-2 rounded-xl"
-                      onPress={() => handlePayMongo()}
-                    >
-                      <Text className="text-white">Paymongo</Text>
-                    </TouchableOpacity>
-                  </View> */}
 
-                  {/* <View>
-                    <NewArrival />
-                  </View> */}
-
-                  <View className="mt-5 px-2">
+                  <View className="mt-2 px-2">
                     <View className="flex flex-row space-x-2 items-center mb-3">
                       {/* <Squares2X2Icon color="black" size={24} /> */}
                       <Text className="font-bold text-xl">Categories</Text>

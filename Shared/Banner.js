@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Image, View, FlatList } from "react-native";
+import { Image, View, FlatList, Dimensions } from "react-native";
 
 import {
   widthPercentageToDP as wp,
@@ -45,20 +45,21 @@ const Banner = () => {
   };
 
   return (
-    <View className="p-2">
+    <View style={{ width: wp("96%") }}>
       <FlatList
         ref={flatListRef}
         data={bannerData}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => (
-          <View
-            className="flex justify-center items-center"
-
->
+          <View className="flex-1 rounded-xl overflow-hidden">
             <Image
               source={{ uri: item }}
-              style={{ width: wp("100%"), height: hp("25%") }}
-              resizeMode="contain"
+              style={{
+                width: wp("96%"),
+                height: hp("23%"),
+                resizeMode: "contain",
+                borderRadius: 5, // Adjust the value as needed for the desired roundedness
+              }}
             />
           </View>
         )}

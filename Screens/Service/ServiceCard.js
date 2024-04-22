@@ -9,6 +9,7 @@ import Toast from "react-native-toast-message";
 import { useDispatch } from "react-redux";
 import Swiper from "react-native-swiper";
 import { Rating, AirbnbRating } from "react-native-ratings";
+import { Badge } from "native-base";
 
 const SingleCard = (props) => {
   const { name, description, price, images, type } = props;
@@ -22,12 +23,12 @@ const SingleCard = (props) => {
   console.log(type, "image");
 
   return (
-    <View className="bg-white p-2 rounded-lg flex flex-row space-x-3">
+    <View className="bg-white p-2 rounded-xl flex flex-row space-x-3">
       <Image
-        className="rounded-lg"
+        className="rounded-xl"
         style={{
-          width: 150,
-          height: 110,
+          width: 100,
+          height: 100,
         }}
         source={
           images[0]?.url
@@ -37,34 +38,57 @@ const SingleCard = (props) => {
         resizeMode="cover"
       />
 
-      <View className="">
-        <View className="flex-row">
+      <View className="flex-1">
+        <View className="flex flex-row ">
           {type === 1 ? (
-            <View className="px-2 bg-blue-100 rounded">
-              <Text className="text-xs text-blue-900">Onsite</Text>
+            <View>
+              {/* <Text className="text-xs text-blue-900">Onsite</Text> */}
+              <Badge
+                colorScheme="info"
+                rounded="md"
+                _text={{
+                  fontSize: 10,
+                }}
+              >
+                Onsite
+              </Badge>
             </View>
           ) : type === 2 ? (
-            <View className="px-2 bg-green-100 rounded">
-              <Text className="text-xs text-green-900">Home</Text>
+            <View>
+              {/* <Text className="text-xs text-green-900">Home</Text> */}
+              <Badge
+                colorScheme="success"
+                rounded="md"
+                _text={{
+                  fontSize: 10,
+                }}
+              >
+                Home
+              </Badge>
             </View>
           ) : type === 3 ? (
-            <View className="px-2 bg-yellow-100 rounded">
-              <Text className="text-xs text-yellow-900">Home & Onsite</Text>
+            <View>
+              {/* <Text className="text-xs text-yellow-900">Home & Onsite</Text> */}
+              <Badge
+                colorScheme="warning"
+                _text={{
+                  fontSize: 10,
+                }}
+                rounded="md"
+              >
+                Home & Onsite
+              </Badge>
             </View>
           ) : null}
         </View>
 
-        <Text className="font-semibold text-lg">{name}</Text>
+        <Text className="text-base font-semibold">{name}</Text>
 
-        <Text className="font-semibold text-red-500">
-          ₱
-          {price?.toLocaleString(undefined, {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          })}
-        </Text>
-
-        <Text numberOfLines={2} ellipsizeMode="tail" className="font-normal text-zinc-600 w-40 text-xs">
+        <Text
+          className="text-xs text-zinc-600 mt-1"
+          numberOfLines={3}
+          ellipsizeMode="tail"
+        >
           {description}
         </Text>
       </View>
