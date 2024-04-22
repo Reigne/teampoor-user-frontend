@@ -51,7 +51,7 @@ const SingleProduct = (props) => {
 
   return (
     <View className="flex-1 bg-white">
-      <KeyboardAwareScrollView>
+      <KeyboardAwareScrollView className="flex-1">
         <Swiper
           style={{ height: hp(55) }}
           showsButtons={false}
@@ -90,8 +90,12 @@ const SingleProduct = (props) => {
             {formattedPrice}
           </Text>
 
-          <View className="flex flex-row justify-between items-center mt-1">
-            <Text className="text-lg font-semibold">{item.name}</Text>
+          <View className="flex flex-row justify-between items-center">
+            <View className="flex-1">
+              <Text className="text-lg font-semibold">
+                {item.name}
+              </Text>
+            </View>
 
             <View className="flex flex-row items-start space-x-1">
               <StarIcon color="#fbbf24" size={20} />
