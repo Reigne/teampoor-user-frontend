@@ -140,8 +140,8 @@ const ServiceContainer = () => {
   return (
     <KeyboardAwareScrollView>
       <SafeAreaView>
-        <View className="mt-2 p-3">
-          <View className="flex justify-center items-center">
+        <View className="p-2">
+          <View className="flex justify-center items-center rounded-xl overflow-hidden">
             <Image
               style={{ width: wp(100), height: hp("20%") }}
               source={require("../../assets/images/header-teampoor.jpg")}
@@ -156,9 +156,7 @@ const ServiceContainer = () => {
         </View>
       </SafeAreaView>
 
-      <View className="mt-2 ">
-        {/* <Banner /> */}
-
+      <View className="mt-2">
         <View className="flex-row items-center space-x-2 px-2 pb-1">
           {/* <View className="flex-1 flex-row items-center bg-white rounded p-2 space-x-2">
               <View className="">
@@ -171,7 +169,7 @@ const ServiceContainer = () => {
               <TextInput placeholder="Search Services" />
             </View> */}
           <TouchableOpacity
-            className="bg-red-500 rounded-lg p-3 flex-1 flex-row space-x-1 items-center"
+            className="bg-red-500 rounded-xl p-3 flex-1 flex-row space-x-1 items-center"
             // onPress={() => navigation.navigate("Home Service Cart")}
             onPress={() => appointmentHandler()}
           >
@@ -187,8 +185,8 @@ const ServiceContainer = () => {
         </View>
       </View>
 
-      <View className="px-3">
-        <Text className="font-bold text-xl mt-3">Services</Text>
+      <View className="px-3 mt-2">
+        <Text className="font-bold text-xl">Services</Text>
       </View>
 
       <View>

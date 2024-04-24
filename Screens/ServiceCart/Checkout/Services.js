@@ -145,7 +145,6 @@ const Services = (props) => {
       console.log(service);
       navigation.navigate("Appointment", service);
     } else {
-
       Toast.show({
         topOffset: 60,
         type: "error",
@@ -155,37 +154,21 @@ const Services = (props) => {
 
       console.log("No services selected.");
 
-      return
+      return;
     }
   };
 
   console.log("Checked services:", checkedServices);
 
   return (
-    <View className="flex-1 bg-white">
-      <SafeAreaView className="flex-1 bg-white">
-        <View className="flex-1">
-          {/* <View className="p-3 flex flex-row justify-between items-center">
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <ChevronLeftIcon color="black" size={20} />
-            </TouchableOpacity>
+    <View className="flex-1 p-3 bg-zinc-100 space-y-3">
+      <KeyboardAwareScrollView className="space-y-3">
+        <Text className="text-lg font-bold">Select any services</Text>
 
-            <View>
-              <Text className="font-bold text-lg">Service Cart</Text>
-            </View>
-
-            <View>
-              {serviceCartItems.length > 0 && (
-                <TouchableOpacity onPress={() => dispatch(clearServiceCart())}>
-                  <TrashIcon color="#ef4444" size={20} />
-                </TouchableOpacity>
-              )}
-            </View>
-          </View> */}
-
+        <View className="flex bg-white rounded-xl">
           <View className="p-3 space-y-4">
             <View>
-              <Text className="font-semibold">Service Location *</Text>
+              <Text className="font-semibold mb-1">Service Location *</Text>
 
               <Select
                 selectedValue={type}
@@ -204,17 +187,17 @@ const Services = (props) => {
               </Select>
             </View>
 
-            <View>
+            <View className="space-y-1">
               <Text className="font-semibold">Type of Service Needed *</Text>
               {type ? (
-                <ScrollView>
+                <View className="">
                   {serviceFilter.map((service) => (
                     <>
                       {service.isAvailable === true && (
-                        <View key={service._id} className="p-2">
+                        <View key={service._id} className="mt-1">
                           <Checkbox
                             value={service._id}
-                            colorScheme="success"
+                            colorScheme="danger"
                             isChecked={checkedServices.includes(service._id)}
                             onChange={() => handleCheckboxChange(service._id)}
                           >
@@ -224,7 +207,7 @@ const Services = (props) => {
                       )}
                     </>
                   ))}
-                </ScrollView>
+                </View>
               ) : (
                 <View className="pt-2 justify-center">
                   <Text className="text-zinc-500">
@@ -237,27 +220,18 @@ const Services = (props) => {
             <View></View>
           </View>
         </View>
-      </SafeAreaView>
+      </KeyboardAwareScrollView>
 
-      <View className="absolute bottom-3 w-full px-2">
-        {/* <View className="p-3  flex flex-row justify-between items-center bg-zinc-100 rounded-lg mb-1">
-          <Text className="">Total Price:</Text>
-
-          <Text className="text-base text-red-500 font-bold">
-            ₱{total?.toFixed(2)}
-          </Text>
-        </View> */}
+      <View className="">
         <View className="flex justify-center items-center">
-          {/* {serviceCartItems.length > 0 && ( */}
           <TouchableOpacity
-            className="bg-red-500 rounded-xl w-full py-4 px-4"
+            className="bg-red-500 rounded-xl w-full p-3"
             onPress={() => submitHandler()}
           >
             <Text className="font-bold text-white text-center">
-              Book Appointment
+              Next
             </Text>
           </TouchableOpacity>
-          {/* )} */}
         </View>
       </View>
     </View>

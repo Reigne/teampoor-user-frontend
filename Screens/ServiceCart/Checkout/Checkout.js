@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { Calendar } from "react-native-calendars";
 import { useNavigation } from "@react-navigation/native";
 import Toast from "react-native-toast-message";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const Checkout = (props) => {
   const [selectedDate, setSelectedDate] = useState(null);
@@ -95,75 +96,61 @@ const Checkout = (props) => {
   }
 
   return (
-    <View className="flex-1 bg-zinc-100 p-3 space-y-2">
-      <Text className="text-center text-lg font-bold">
-        Select a Date & Time
-      </Text>
+    <View className="flex-1 bg-zinc-100 p-3 space-y-4">
+      <KeyboardAwareScrollView className="space-y-2">
+        <Text className="text-lg font-bold">Select a Date & Time</Text>
 
-      <View className="bg-white rounded-xl p-1 space-y-3">
-        <View className="px-2 pt-3">
-          <Text className="font-semibold">Select Date *</Text>
+        <View className="bg-white rounded-xl p-1 space-y-3">
+          <View className="px-2 pt-3">
+            <Text className="font-semibold">Select Date *</Text>
+          </View>
+          <Calendar
+            onDayPress={handleDayPress}
+            markedDates={markedDates} // Highlight selected date
+            theme={{
+              calendarBackground: "white",
+              todayTextColor: "#ef4444",
+              arrowColor: "#ef4444",
+              selectedDayBackgroundColor: "#ef4444",
+              selectedDayTextColor: "white",
+            }}
+          />
         </View>
-        <Calendar
-          onDayPress={handleDayPress}
-          markedDates={markedDates} // Highlight selected date
-          theme={{
-            calendarBackground: "white",
-            todayTextColor: "#ef4444",
-            arrowColor: "#ef4444",
-            selectedDayBackgroundColor: "#ef4444",
-            selectedDayTextColor: "white",
-          }}
-        />
-      </View>
 
-      <View>
-        <View className="bg-white p-3 rounded-xl space-y-3">
-          {/* <Text style={{ marginBottom: 10, fontSize: 16 }}>
+        <View className="">
+          <View className="bg-white p-3 rounded-xl space-y-3">
+            {/* <Text style={{ marginBottom: 10, fontSize: 16 }}>
           Available Time Slot: {timeOptions.length}
         </Text> */}
 
-          <View>
-            <Text className="font-semibold">
-              Select Time ({timeOptions.length} Available) *
-            </Text>
-            {/* {errors.selectedTime ? (
+            <View>
+              <Text className="font-semibold">
+                Select Time ({timeOptions.length} Available) *
+              </Text>
+              {/* {errors.selectedTime ? (
               <Text className="text-sm text-red-500">
                 {errors.selectedTime}
               </Text>
             ) : null} */}
-          </View>
+            </View>
 
-          <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-            {timeOptions.map((time) =>
-              renderTimeButton(time, time === selectedTime)
-            )}
+            <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+              {timeOptions.map((time) =>
+                renderTimeButton(time, time === selectedTime)
+              )}
+            </View>
           </View>
         </View>
-      </View>
+      </KeyboardAwareScrollView>
 
-      <View
-        style={{
-          position: "absolute",
-          left: 10,
-          right: 10,
-          bottom: 20,
-        }}
+      <TouchableOpacity
+        className="bg-red-500 p-3 rounded-xl items-center"
+        onPress={() => submitHandler()}
       >
-        <TouchableOpacity
-          style={{
-            backgroundColor: "#ef4444",
-            paddingVertical: 15,
-            borderRadius: 10,
-            alignItems: "center",
-          }}
-          onPress={() => submitHandler()}
-        >
-          <Text style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>
-            Next
-          </Text>
-        </TouchableOpacity>
-      </View>
+        <Text style={{ color: "white", fontWeight: "bold", fontSize: 16 }}>
+          Next
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 };

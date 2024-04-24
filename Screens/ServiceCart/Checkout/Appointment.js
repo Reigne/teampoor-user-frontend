@@ -283,140 +283,136 @@ const Appointment = (props) => {
 
   // console.log(props.route.params);
   return (
-    <KeyboardAwareScrollView className="px-3 space-y-3">
-      <SafeAreaView>
-        <Text className="text-lg font-bold text-center">
+    <View className="flex-1 p-3">
+      <KeyboardAwareScrollView className="space-y-3">
+        <Text className="text-lg font-bold">
           Appointment Information
         </Text>
-      </SafeAreaView>
 
-      <View className="bg-white p-3 rounded-xl space-y-3">
-        <Text className="text-base font-semibold">Contact Details</Text>
-        <View className="space-y-1">
-          <Text className="font-semibold">Full Name *</Text>
+        <View className="bg-white p-3 rounded-xl space-y-3">
+          <Text className="text-base font-semibold">Contact Details</Text>
+          <View className="space-y-1">
+            <Text className="font-semibold">Full Name *</Text>
 
-          <TextInput
-            className="p-3 bg-gray-100 text-gray-700 rounded-xl mb-1 flex-row items-center"
-            placeholder="Enter full name"
-            name="fullname"
-            id="fullname"
-            value={user.firstname + " " + user.lastname}
-            onChangeText={(text) => setFullname(text)}
-            editable={false}
-          />
-        </View>
-
-        <View className="space-y-1">
-          <Text className="font-semibold">Phone *</Text>
-
-          <TextInput
-            className="p-3 bg-gray-100 text-gray-700 rounded-xl mb-1 flex-row items-center"
-            placeholder="Enter phone number"
-            name="phone"
-            id="phone"
-            onChangeText={(text) => setPhone(text)}
-            value={user.phone}
-            editable={false}
-          />
-        </View>
-      </View>
-
-      <View className="bg-white p-3 rounded-xl space-y-3">
-        <View>
-          <View className="flex flex-row justify-between items-center">
-            <Text className="text-base font-semibold">Motorcycle *</Text>
-
-            <TouchableOpacity
-              className="px-2 py-1 rounded bg-red-500"
-              onPress={() => navigation.navigate("MotorcycleForm")}
-            >
-              <Text className="text-white text-xs">Add Motorcycle</Text>
-            </TouchableOpacity>
+            <TextInput
+              className="p-3 bg-gray-100 text-gray-700 rounded-xl mb-1 flex-row items-center"
+              placeholder="Enter full name"
+              name="fullname"
+              id="fullname"
+              value={user.firstname + " " + user.lastname}
+              onChangeText={(text) => setFullname(text)}
+              editable={false}
+            />
           </View>
-          <Text className="text-zinc-500 text-xs">Select your motocycle</Text>
-        </View>
 
-        <View className="space-y-1">
-          <View className="p-3 bg-gray-100 text-gray-700 rounded-xl">
-            <Dropdown
-              placeholderStyle={styles.placeholderStyle}
-              selectedTextStyle={styles.selectedTextStyle}
-              inputSearchStyle={styles.inputSearchStyle}
-              iconStyle={styles.iconStyle}
-              data={data}
-              search
-              maxHeight={300}
-              labelField="label"
-              valueField="value"
-              placeholder="Select item"
-              searchPlaceholder="Search..."
-              value={value}
-              onChange={(item) => {
-                setValue(item.value);
-              }}
-              renderLeftIcon={() => (
-                <FontAwesomeIcon
-                  icon={faMotorcycle}
-                  style={styles.icon}
-                  color="black"
-                  name="Safety"
-                  size={20}
-                />
-              )}
-              renderItem={renderItem}
+          <View className="space-y-1">
+            <Text className="font-semibold">Phone *</Text>
+
+            <TextInput
+              className="p-3 bg-gray-100 text-gray-700 rounded-xl mb-1 flex-row items-center"
+              placeholder="Enter phone number"
+              name="phone"
+              id="phone"
+              onChangeText={(text) => setPhone(text)}
+              value={user.phone}
+              editable={false}
             />
           </View>
         </View>
-      </View>
 
-      {serviceCart?.selectedServices?.type === 2 && (
         <View className="bg-white p-3 rounded-xl space-y-3">
           <View>
             <View className="flex flex-row justify-between items-center">
-              <Text className="text-base font-semibold">Address *</Text>
+              <Text className="text-base font-semibold">Motorcycle *</Text>
 
-              <TouchableOpacity className="px-2 py-1 rounded bg-red-500">
-                <Text className="text-white text-xs">Add Address</Text>
+              <TouchableOpacity
+                className="px-2 py-1 rounded bg-red-500"
+                onPress={() => navigation.navigate("MotorcycleForm")}
+              >
+                <Text className="text-white text-xs">Add Motorcycle</Text>
               </TouchableOpacity>
             </View>
-            <Text className="text-zinc-500 text-xs">Select your address</Text>
+            <Text className="text-zinc-500 text-xs">Select your motocycle</Text>
           </View>
 
-          <FlatList
-            data={addressList}
-            keyExtractor={(item) => item.id}
-            renderItem={({ item, index }) => (
-              <View>
-                {addressList.length > 0 ? (
-                  <AddressList
-                    item={item}
-                    index={index}
-                    regionData={regionData}
-                    selectedAddress={selectedAddress}
-                    selectedAddressId={selectedAddressId}
+          <View className="space-y-1">
+            <View className="p-3 bg-gray-100 text-gray-700 rounded-xl">
+              <Dropdown
+                placeholderStyle={styles.placeholderStyle}
+                selectedTextStyle={styles.selectedTextStyle}
+                inputSearchStyle={styles.inputSearchStyle}
+                iconStyle={styles.iconStyle}
+                data={data}
+                search
+                maxHeight={300}
+                labelField="label"
+                valueField="value"
+                placeholder="Select item"
+                searchPlaceholder="Search..."
+                value={value}
+                onChange={(item) => {
+                  setValue(item.value);
+                }}
+                renderLeftIcon={() => (
+                  <FontAwesomeIcon
+                    icon={faMotorcycle}
+                    style={styles.icon}
+                    color="black"
+                    name="Safety"
+                    size={20}
                   />
-                ) : (
-                  <View className="flex justify-center items-center p-5">
-                    <Text>No data available.</Text>
-                  </View>
                 )}
-              </View>
-            )}
-          />
+                renderItem={renderItem}
+              />
+            </View>
+          </View>
         </View>
-      )}
 
-      <View className="">
-        <View className="flex justify-center items-center mt-3">
-          <TouchableOpacity
-            className="bg-red-500 w-full py-3 rounded-full items-center"
-            onPress={() => submitHandler()}
-          >
-            <Text className="font-bold text-base text-white">Next</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </KeyboardAwareScrollView>
+        {serviceCart?.selectedServices?.type === 2 && (
+          <View className="bg-white p-3 rounded-xl space-y-3">
+            <View>
+              <View className="flex flex-row justify-between items-center">
+                <Text className="text-base font-semibold">Address *</Text>
+
+                <TouchableOpacity className="px-2 py-1 rounded bg-red-500">
+                  <Text className="text-white text-xs">Add Address</Text>
+                </TouchableOpacity>
+              </View>
+              <Text className="text-zinc-500 text-xs">Select your address</Text>
+            </View>
+
+            <FlatList
+              data={addressList}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item, index }) => (
+                <View>
+                  {addressList.length > 0 ? (
+                    <AddressList
+                      item={item}
+                      index={index}
+                      regionData={regionData}
+                      selectedAddress={selectedAddress}
+                      selectedAddressId={selectedAddressId}
+                    />
+                  ) : (
+                    <View className="flex justify-center items-center p-5">
+                      <Text>No data available.</Text>
+                    </View>
+                  )}
+                </View>
+              )}
+            />
+          </View>
+        )}
+      </KeyboardAwareScrollView>
+
+      <TouchableOpacity
+        className="bg-red-500 w-full p-3 rounded-xl items-center"
+        onPress={() => submitHandler()}
+      >
+        <Text className="font-bold text-base text-white">Next</Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 
