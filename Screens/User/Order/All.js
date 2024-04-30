@@ -283,9 +283,9 @@ const All = (props) => {
                     </Text>
                   </View>
 
-                  <View className="space-y-1">
-                    <Text className="font-bold text-base">
-                      {item.orderItems[0]?.product?.name}
+                  <View className="space-y-1 flex-1">
+                    <Text className="font-bold text-base" numberOfLines={1} ellipsizeMode="tail">
+                      {item.orderItems[0]?.product?.name} 
                     </Text>
 
                     <Text>Quantity: {item.orderItems[0]?.quantity}</Text>

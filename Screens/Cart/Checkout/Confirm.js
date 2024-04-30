@@ -292,7 +292,7 @@ const Confirm = (props) => {
           </View>
         </View>
       ) : null}
-      <View className="px-4 my-2 flex flex-row space-x-2 items-center">
+      {/* <View className="px-4 my-2 flex flex-row space-x-2 items-center">
         <Checkbox
           colorScheme="info"
           isChecked={isCheck}
@@ -305,19 +305,20 @@ const Confirm = (props) => {
             <Text className="text-blue-500">terms and conditions *</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </View> */}
 
       <View className="px-4 my-4 ">
         <TouchableOpacity
-          className={
-            isLoading
-              ? "bg-zinc-500 py-4 rounded-2xl mt-5"
-              : isCheck === false
-              ? "bg-zinc-500 py-4 rounded-2xl mt-5"
-              : "bg-red-500 py-4 rounded-2xl mt-5"
-          }
+          // className={
+          //   isLoading
+          //     ? "bg-zinc-500 py-4 rounded-2xl mt-5"
+          //     : isCheck === false
+          //     ? "bg-zinc-500 py-4 rounded-2xl mt-5"
+          //     : "bg-red-500 py-4 rounded-2xl mt-5"
+          // }
+          className="bg-red-500 py-4 rounded-2xl"
           onPress={() => confirmOrder()}
-          disabled={isCheck === false}
+          // disabled={isCheck === false}
         >
           <View className="flex flex-row space-x-2 items-center justify-center">
             <Text className="font-xl font-bold text-center text-white">

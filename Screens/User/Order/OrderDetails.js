@@ -442,8 +442,8 @@ const OrderDetails = (props) => {
               </View>
 
               <View className="w-40">
-                <Text className="font-bold">{item.product.name}</Text>
-                <Text className="text-zinc-600">
+                <Text className="font-bold" numberOfLines={1}>{item.product.name}</Text>
+                <Text className="text-zinc-600 text-xs" numberOfLines={2} ellipsizeMode="tail">
                   {item.product.description}
                 </Text>
               </View>

@@ -239,7 +239,7 @@ const Confirm = (props) => {
         </View>
       </View>
 
-      <View className="flex flex-row space-x-2 items-center">
+      {/* <View className="flex flex-row space-x-2 items-center">
         <Checkbox
           colorScheme="info"
           isChecked={isCheck}
@@ -252,7 +252,7 @@ const Confirm = (props) => {
             <Text className="text-blue-500">terms and conditions *</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </View> */}
 
       <View className="">
         <View className="flex justify-center items-center my-2">
@@ -261,11 +261,10 @@ const Confirm = (props) => {
             className={
               isLoading
                 ? "bg-zinc-500 w-full py-3 rounded-xl items-center"
-                : isCheck === true
-                ? "bg-red-500 w-full py-3 rounded-xl items-center"
-                : "bg-zinc-500 w-full py-3 rounded-xl items-center"
+                : "bg-red-500 w-full py-3 rounded-xl items-center"
+
             }
-            disabled={isLoading === true || isCheck === false}
+            disabled={isLoading === true}
           >
             <View className="flex flex-row space-x-2 items-center justify-center">
               <Text className="font-xl font-bold text-center text-white">

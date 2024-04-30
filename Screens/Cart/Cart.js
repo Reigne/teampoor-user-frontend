@@ -85,26 +85,28 @@ const Cart = (props) => {
   console.log(cartItems, "cart");
   const renderItem = ({ item, index }) => (
     <View className="h-24 bg-white">
-      <View className="flex flex-row p-5 space-x-5 divide">
-        <View className="border-2 border-zinc-200 p-1 rounded-lg">
-          <Image
-            className="rounded-lg"
-            style={{
-              width: 40,
-              height: 40,
-            }}
-            source={
-              item.images[0]?.url
-                ? { uri: item.images[0]?.url }
-                : require("../../assets/images/teampoor-default.png")
-            }
-            alt="images"
-          />
-        </View>
+      <View className="flex flex-row p-4 space-x-5 divide">
+        <Image
+          className="rounded-lg"
+          style={{
+            width: 40,
+            height: 40,
+          }}
+          source={
+            item.images[0]?.url
+              ? { uri: item.images[0]?.url }
+              : require("../../assets/images/teampoor-default.png")
+          }
+          alt="images"
+        />
 
         <View className="flex flex-column w-44">
-          <Text className="font-semibold text-base">
-            {item.name.length > 30 ? `${item.name.slice(0, 30)}...` : item.name}
+          <Text
+            className="font-semibold text-base"
+            numberOfLines={2}
+            ellipsizeMode="tail"
+          >
+            {item.name}
           </Text>
           <Text className="">
             ₱

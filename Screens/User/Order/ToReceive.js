@@ -222,8 +222,8 @@ const TORECEIVED = (props) => {
                     <Text className="mt-2">+{item.orderItems.length} more</Text>
                   </View>
 
-                  <View className="space-y-1">
-                    <Text className="font-bold text-base">
+                  <View className="space-y-1 flex-1">
+                    <Text className="font-bold text-base" numberOfLines={1} ellipsizeMode="tail">
                       {item.orderItems[0].product?.name}
                     </Text>
 
