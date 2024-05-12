@@ -278,14 +278,18 @@ const All = (props) => {
                       className="rounded "
                     />
 
-                    <Text className="mt-2">
-                      +{item.orderItems?.length} more
-                    </Text>
+                    {item.orderItems?.length > 1 ? (
+                      <Text className="mt-2">+{item.orderItems?.length - 1} more</Text>
+                    ) : null}
                   </View>
 
                   <View className="space-y-1 flex-1">
-                    <Text className="font-bold text-base" numberOfLines={1} ellipsizeMode="tail">
-                      {item.orderItems[0]?.product?.name} 
+                    <Text
+                      className="font-bold text-base"
+                      numberOfLines={1}
+                      ellipsizeMode="tail"
+                    >
+                      {item.orderItems[0]?.product?.name}
                     </Text>
 
                     <Text>Quantity: {item.orderItems[0]?.quantity}</Text>
