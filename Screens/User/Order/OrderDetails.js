@@ -289,7 +289,7 @@ const OrderDetails = (props) => {
                       <View className="bg-red-500 p-1 rounded-full">
                         <CheckBadgeIcon color="white" size={18} />
                       </View>
-                    ) : status.status === "TORECEIVE" ? (
+                    ) : status.status === "TORECEIVED" ? (
                       <View className="bg-red-500 p-1 rounded-full">
                         <TruckIcon color="white" size={18} />
                       </View>
@@ -330,12 +330,12 @@ const OrderDetails = (props) => {
                       <Text className="font-bold">
                         Packed and Ready To Ship
                       </Text>
-                    ) : status.status === "TORECEIVE" ? (
+                    ) : status.status === "TORECEIVED" ? (
                       <Text className="font-bold">In Transit</Text>
                     ) : status.status === "DELIVERED" ? (
                       <Text className="font-bold">Delivered</Text>
                     ) : status.status === "COMPLETED" ? (
-                      <Text className="font-bold">Order Completed</Text>
+                      <Text className="font-bold">Order Completed </Text>
                     ) : (
                       ""
                     )}
