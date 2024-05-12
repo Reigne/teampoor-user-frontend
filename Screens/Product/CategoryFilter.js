@@ -58,8 +58,8 @@ const CategoryFilter = (props) => {
             > */}
             <Image
               source={
-                item.image.url
-                  ? { uri: item.image.url }
+                item.images?.url
+                  ? { uri: item.images?.url }
                   : require("../../assets/images/teampoor-default.png")
               }
               style={{ width: hp(4), height: hp(4) }}
