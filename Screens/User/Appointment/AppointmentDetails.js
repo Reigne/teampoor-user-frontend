@@ -192,6 +192,58 @@ const AppointmentDetails = (props) => {
         </View>
       </View>
 
+      <View className="bg-zinc-100 p-2 rounded-xl space-y-2">
+        <View>
+          <Text>Mechanic</Text>
+        </View>
+
+        <View>
+          {item.mechanic ? (
+            <View className="flex flex-row space-x-2">
+              <Image
+                className="rounded"
+                style={{
+                  width: 64,
+                  height: 64,
+                }}
+                // source={{
+                //   uri: item.user?.avatar?.url
+                //     ? item.user?.avatar?.url
+                //     : "https://i.pinimg.com/originals/40/57/4d/40574d3020f73c3aa4b446aa76974a7f.jpg",
+                // }}
+
+                source={
+                  item.mechanic?.avatar?.url
+                    ? { uri: item.mechanic?.avatar?.url }
+                    : require("../../../assets/images/teampoor-default.png")
+                }
+                alt="images"
+              />
+
+              <View>
+                <Text className="font-semibold text-base">
+                  {item?.mechanic?.firstname} {item?.mechanic?.lastname}
+                </Text>
+
+                <View className="flex flex-row space-x-2">
+                  <Text className="text-xs text-zinc-700">Email:</Text>
+                  <Text className="text-xs">{item?.mechanic?.email}</Text>
+                </View>
+
+                <View className="flex flex-row space-x-2">
+                  <Text className="text-xs text-zinc-700">Contact:</Text>
+                  <Text className="text-xs">{item?.mechanic?.contact}</Text>
+                </View>
+              </View>
+            </View>
+          ) : (
+            <View className="flex-1 justify-center items-center">
+              <Text className="text-center text-xs text-zinc-700">No mechanic assign yet.</Text>
+            </View>
+          )}
+        </View>
+      </View>
+
       <View className="space-y-1">
         <View className="bg-zinc-100 p-2 space-y-3 rounded-xl">
           <View>
