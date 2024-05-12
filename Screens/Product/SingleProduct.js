@@ -92,9 +92,7 @@ const SingleProduct = (props) => {
 
           <View className="flex flex-row justify-between items-center">
             <View className="flex-1">
-              <Text className="text-lg font-semibold">
-                {item.name}
-              </Text>
+              <Text className="text-lg font-semibold">{item.name}</Text>
             </View>
 
             <View className="flex flex-row items-start space-x-1">
@@ -147,8 +145,8 @@ const SingleProduct = (props) => {
                     <View className="flex-row space-x-2 border-b border-zinc-200">
                       <Image
                         source={
-                          item.image
-                            ? { uri: item.image }
+                          review?.user?.avatar?.url
+                            ? { uri: review?.user?.avatar?.url }
                             : require("../../assets/images/teampoor-default.png")
                         }
                         style={{ width: 30, height: 30 }}
