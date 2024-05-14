@@ -145,7 +145,10 @@ const UserDashboard = () => {
             </View>
 
             <View className="w-16">
-              <Text>₱{item.totalCost}</Text>
+              <Text>₱{item.totalCost?.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}</Text>
             </View>
 
             <View className="w-14">

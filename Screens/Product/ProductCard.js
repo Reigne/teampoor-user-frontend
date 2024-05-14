@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Image, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
+import { Image } from "expo-image";
 import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
@@ -41,9 +42,10 @@ const ProductCard = (props) => {
               width: "100%",
               height: 185,
               marginBottom: 8,
-              resizeMode: "cover",
               opacity: stock <= 0 ? 0.4 : 1,
             }}
+            contentFit="cover"
+            transition={1000}
             source={
               images[0]?.url
                 ? { uri: images[0].url }

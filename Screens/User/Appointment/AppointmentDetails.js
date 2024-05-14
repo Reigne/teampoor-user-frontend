@@ -336,6 +336,10 @@ const AppointmentDetails = (props) => {
                       <View className="bg-red-500 p-1 rounded-full">
                         <CheckIcon color="white" size={18} />
                       </View>
+                    ) : status.status === "DONE" ? (
+                      <View className="bg-red-500 p-1 rounded-full">
+                        <CheckIcon color="white" size={18} />
+                      </View>
                     ) : (
                       <View className="bg-red-500 p-1 rounded-full"></View>
                     )}
@@ -371,6 +375,8 @@ const AppointmentDetails = (props) => {
                       <Text className="font-bold">Back Job Confirmed</Text>
                     ) : status.status === "BACKJOBCOMPLETED" ? (
                       <Text className="font-bold">Back Job Completed</Text>
+                    ) : status.status === "DONE" ? (
+                      <Text className="font-bold">Final Checking</Text>
                     ) : (
                       ""
                     )}

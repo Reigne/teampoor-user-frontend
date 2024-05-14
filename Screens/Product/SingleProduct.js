@@ -113,6 +113,14 @@ const SingleProduct = (props) => {
             </Text>
           </View>
 
+          <View className="mt-4">
+            <Text className="text-red-500 text-xs tracking-wider">
+              Notes: Our product warranty only covers services we perform during
+              assembly on your motorcycle. Online orders or third-party
+              assemblies are not included. Thank you.
+            </Text>
+          </View>
+
           <View className="mt-4 flex-1 space-y-1">
             <Text className="text-zinc-600">Overall Rating</Text>
             <View className="flex flex-row items-center space-x-4">
