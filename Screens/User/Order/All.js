@@ -188,7 +188,17 @@ const All = (props) => {
                   <Text>{formatDate(item.dateOrdered)}</Text>
                 </View> */}
                 <View className="flex flex-row justify-between mt-3">
-                  <Text>#{item._id}</Text>
+                  {/* <Text>#{item._id}</Text> */}
+                  {/* <Text>Date Ordered: {item.dateOrdered}</Text> */}
+                  <Text>
+                    {item.dateOrdered
+                      ? new Date(item.dateOrdered).toLocaleDateString("en-US", {
+                          month: "long",
+                          day: "numeric",
+                          year: "numeric",
+                        })
+                      : ""}
+                  </Text>
 
                   <View>
                     <Badge
@@ -279,7 +289,9 @@ const All = (props) => {
                     />
 
                     {item.orderItems?.length > 1 ? (
-                      <Text className="mt-2">+{item.orderItems?.length - 1} more</Text>
+                      <Text className="mt-2">
+                        +{item.orderItems?.length - 1} more
+                      </Text>
                     ) : null}
                   </View>
 

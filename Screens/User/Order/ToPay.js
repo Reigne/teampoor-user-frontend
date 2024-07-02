@@ -158,7 +158,15 @@ const ToPay = (props) => {
             >
               <View className="flex bg-zinc-100 p-5 rounded-lg">
                 <View className="flex flex-row justify-between mt-3">
-                  <Text>#{item._id}</Text>
+                <Text>
+                    {item.dateOrdered
+                      ? new Date(item.dateOrdered).toLocaleDateString("en-US", {
+                          month: "long",
+                          day: "numeric",
+                          year: "numeric",
+                        })
+                      : ""}
+                  </Text>
 
                   <View>
                     <Badge
